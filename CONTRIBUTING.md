@@ -53,26 +53,87 @@ bun test
 npm test
 ```
 
-### Environment Setup
+### Development Workflow
 
-1. Copy `.env.example` to `.env` (if applicable)
-2. Configure any required environment variables
+```bash
+# Build all packages
+bun run build
+
+# Run all tests
+bun run test
+
+# Lint all packages
+bun run lint
+
+# Format code
+bun run format
+
+# Type check
+bun run typecheck
+```
+
+### Working with Individual Packages
+
+```bash
+# Run playground locally (http://localhost:3000)
+cd packages/playground
+bun dev
+
+# Run website locally (http://localhost:3001)
+cd apps/website
+bun dev
+
+# Build core library
+cd packages/core
+bun run build
+
+# Run core tests
+cd packages/core
+bun test
+```
+
+### Turbo Commands
+
+The monorepo uses [Turborepo](https://turbo.build/) for efficient builds:
+
+```bash
+# Build only affected packages
+bun run build --filter=@taskml/core...
+
+# Run dev for specific package
+bun run dev --filter=playground
+
+# Run tests with caching
+bun run test
+```
 
 ## Project Structure
+
+This is a Turborepo monorepo with the following structure:
 
 ```
 taskml/
 ├── packages/
-│   ├── taskml-js/      # Core TypeScript library
+│   ├── core/           # Core TypeScript library (@taskml/core)
+│   ├── spec/           # TaskML specification (v1.1)
 │   ├── playground/     # Web playground (Next.js)
 │   ├── vscode/         # VS Code extension
 │   ├── obsidian/       # Obsidian plugin
-│   ├── cli/            # Command-line interface
-│   └── website/        # Marketing website
-├── docs/               # Documentation
-├── examples/           # Example TaskML files
-└── spec/               # TaskML specification
+│   └── cli/            # Command-line interface
+├── apps/
+│   └── website/        # Marketing website (taskml.dev)
+├── .github/            # GitHub Actions workflows
+└── docs/               # Additional documentation
 ```
+
+### Package Overview
+
+| Package | Description | npm |
+|---------|-------------|-----|
+| `@taskml/core` | Parser, validator, and renderers | `npm i @taskml/core` |
+| `@taskml/cli` | Command-line tools | `npm i -g @taskml/cli` |
+| `taskml-vscode` | VS Code extension | VS Code Marketplace |
+| `obsidian-taskml` | Obsidian plugin | Community Plugins |
 
 ## Making Changes
 
