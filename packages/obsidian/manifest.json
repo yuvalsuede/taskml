@@ -1,0 +1,10 @@
+{
+  "id": "taskml",
+  "name": "TaskML",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "TaskML visualization and editing for Obsidian",
+  "author": "TaskML",
+  "authorUrl": "https://taskml.dev",
+  "isDesktopOnly": false
+}

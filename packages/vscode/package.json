@@ -1,0 +1,67 @@
+{
+  "name": "taskml-vscode",
+  "displayName": "TaskML",
+  "description": "TaskML language support and visualization for VS Code",
+  "version": "0.1.0",
+  "publisher": "taskml",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "taskml",
+    "task",
+    "ai-agents",
+    "visualization",
+    "kanban"
+  ],
+  "activationEvents": [
+    "onLanguage:taskml"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "taskml",
+        "aliases": ["TaskML", "taskml"],
+        "extensions": [".taskml", ".tml"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "taskml",
+        "scopeName": "source.taskml",
+        "path": "./syntaxes/taskml.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "taskml.preview",
+        "title": "TaskML: Open Preview"
+      },
+      {
+        "command": "taskml.exportMarkdown",
+        "title": "TaskML: Export as Markdown"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "@taskml/core": "workspace:*"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "claudia": {
+      "command": "/Users/suede/.bun/bin/claudia",
+      "args": ["mcp"]
+    }
+  }
+}

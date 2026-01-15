@@ -1,0 +1,71 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "TaskML",
+  "scopeName": "source.taskml",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#directives" },
+    { "include": "#tasks" },
+    { "include": "#views" }
+  ],
+  "repository": {
+    "comments": {
+      "match": "//.*$",
+      "name": "comment.line.double-slash.taskml"
+    },
+    "directives": {
+      "match": "^@(\\w[\\w-]*)\\s+(.*)$",
+      "captures": {
+        "1": { "name": "keyword.control.directive.taskml" },
+        "2": { "name": "string.unquoted.directive-value.taskml" }
+      }
+    },
+    "tasks": {
+      "match": "^(\\s*)\\[([ x~!?-])\\]\\s+(.*)$",
+      "captures": {
+        "1": { "name": "punctuation.whitespace.taskml" },
+        "2": { "name": "keyword.operator.status.taskml" },
+        "3": {
+          "patterns": [
+            { "include": "#tokens" }
+          ]
+        }
+      }
+    },
+    "tokens": {
+      "patterns": [
+        {
+          "match": "#p[0-3]",
+          "name": "constant.numeric.priority.taskml"
+        },
+        {
+          "match": "~\\d+[hd]",
+          "name": "constant.numeric.estimate.taskml"
+        },
+        {
+          "match": "@\\w+",
+          "name": "variable.other.assignee.taskml"
+        },
+        {
+          "match": "#\\w+",
+          "name": "entity.name.tag.taskml"
+        },
+        {
+          "match": "!\\d{4}-\\d{2}-\\d{2}",
+          "name": "constant.other.date.taskml"
+        },
+        {
+          "match": "\\^[\\w-]+",
+          "name": "entity.name.function.id.taskml"
+        }
+      ]
+    },
+    "views": {
+      "match": "^---view:(\\w+)(.*)$",
+      "captures": {
+        "1": { "name": "keyword.control.view.taskml" },
+        "2": { "name": "string.unquoted.view-options.taskml" }
+      }
+    }
+  }
+}

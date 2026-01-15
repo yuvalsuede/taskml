@@ -1,0 +1,34 @@
+{
+  "name": "taskml",
+  "version": "0.0.1",
+  "private": true,
+  "description": "TaskML - A text-based protocol for AI agent task visualization",
+  "author": "Yuval Suede",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuvalsuede/taskml.git"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "test": "turbo test",
+    "clean": "turbo clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.0",
+    "turbo": "^2.0.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "bun@1.0.0"
+}
