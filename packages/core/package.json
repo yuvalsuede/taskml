@@ -1,6 +1,6 @@
 {
   "name": "@taskml/core",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha.1",
   "description": "TaskML parser and renderer - Core TypeScript library",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
