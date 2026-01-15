@@ -5,7 +5,8 @@
  */
 
 export * from './types';
-export { tokenize, Token, TokenType } from './lexer';
+export { tokenize, TokenType } from './lexer';
+export type { Token } from './lexer';
 export { parse } from './parser';
 
 import type {

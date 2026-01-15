@@ -24,10 +24,10 @@ export class Parser {
   private tokens: Token[] = [];
   private current: number = 0;
   private errors: ParseError[] = [];
-  private options: ParseOptions;
+  private strict: boolean;
 
   constructor(options: ParseOptions = {}) {
-    this.options = options;
+    this.strict = options.strict ?? false;
   }
 
   /**
@@ -49,6 +49,11 @@ export class Parser {
         errors: this.errors,
       };
     }
+  }
+
+  /** Check if strict mode is enabled */
+  isStrict(): boolean {
+    return this.strict;
   }
 
   private parseDocument(): Document {
