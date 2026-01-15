@@ -486,4 +486,68 @@ describe('JSON Interchange', () => {
       expect(restored.tasks[0].priority).toBe(1);
     });
   });
+
+  describe('Comment preservation', () => {
+    it('should preserve comments in toJSON', () => {
+      const doc: Document = {
+        version: '1.1',
+        directives: {},
+        tasks: [{ status: 'pending', description: 'Test' }],
+        comments: [
+          { line: 1, text: 'First comment' },
+          { line: 5, text: 'Another comment' },
+        ],
+      };
+
+      const json = toJSON(doc);
+      expect(json.comments).toBeDefined();
+      expect(json.comments).toHaveLength(2);
+      expect(json.comments![0].line).toBe(1);
+      expect(json.comments![0].text).toBe('First comment');
+    });
+
+    it('should restore comments in fromJSON', () => {
+      const json = {
+        version: '1.1',
+        tasks: [{ status: 'pending' as const, description: 'Test' }],
+        comments: [
+          { line: 3, text: 'A comment' },
+        ],
+      };
+
+      const doc = fromJSON(json);
+      expect(doc.comments).toBeDefined();
+      expect(doc.comments).toHaveLength(1);
+      expect(doc.comments![0].line).toBe(3);
+      expect(doc.comments![0].text).toBe('A comment');
+    });
+
+    it('should round-trip comments through JSON', () => {
+      const original: Document = {
+        version: '1.1',
+        directives: {},
+        tasks: [],
+        comments: [
+          { line: 2, text: 'Comment to preserve' },
+        ],
+      };
+
+      const json = toJSON(original);
+      const restored = fromJSON(json);
+
+      expect(restored.comments).toHaveLength(1);
+      expect(restored.comments![0].text).toBe('Comment to preserve');
+    });
+
+    it('should not include comments field when empty', () => {
+      const doc: Document = {
+        version: '1.1',
+        directives: {},
+        tasks: [],
+      };
+
+      const json = toJSON(doc);
+      expect(json.comments).toBeUndefined();
+    });
+  });
 });

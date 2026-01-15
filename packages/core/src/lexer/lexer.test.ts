@@ -480,4 +480,83 @@ describe('TaskML Lexer', () => {
       expect(result.errors).toHaveLength(0);
     });
   });
+
+  describe('Escape sequences', () => {
+    it('should escape hash to prevent tag parsing', () => {
+      const result = tokenize('[ ] Use \\#hashtag in description');
+      const tags = result.tokens.filter(t => t.type === TokenType.TAG);
+      expect(tags).toHaveLength(0);
+      const text = result.tokens.filter(t => t.type === TokenType.TEXT);
+      const combined = text.map(t => t.value).join('');
+      expect(combined).toContain('#hashtag');
+    });
+
+    it('should escape @ to prevent assignee parsing', () => {
+      const result = tokenize('[ ] Email me \\@someone');
+      const assignees = result.tokens.filter(t => t.type === TokenType.ASSIGNEE);
+      expect(assignees).toHaveLength(0);
+      const text = result.tokens.filter(t => t.type === TokenType.TEXT);
+      const combined = text.map(t => t.value).join('');
+      expect(combined).toContain('@someone');
+    });
+
+    it('should escape ~ to prevent estimate parsing', () => {
+      const result = tokenize('[ ] Use \\~4h in text');
+      const estimates = result.tokens.filter(t => t.type === TokenType.ESTIMATE);
+      expect(estimates).toHaveLength(0);
+      const text = result.tokens.filter(t => t.type === TokenType.TEXT);
+      const combined = text.map(t => t.value).join('');
+      expect(combined).toContain('~4h');
+    });
+
+    it('should escape ! to prevent due date parsing', () => {
+      const result = tokenize('[ ] Important\\!2026-01-15 task');
+      const dueDates = result.tokens.filter(t => t.type === TokenType.DUE_DATE);
+      expect(dueDates).toHaveLength(0);
+      const text = result.tokens.filter(t => t.type === TokenType.TEXT);
+      const combined = text.map(t => t.value).join('');
+      expect(combined).toContain('!2026-01-15');
+    });
+
+    it('should escape ^ to prevent task ID parsing', () => {
+      const result = tokenize('[ ] Use \\^caret symbol');
+      const taskIds = result.tokens.filter(t => t.type === TokenType.TASK_ID);
+      expect(taskIds).toHaveLength(0);
+      const text = result.tokens.filter(t => t.type === TokenType.TEXT);
+      const combined = text.map(t => t.value).join('');
+      expect(combined).toContain('^caret');
+    });
+
+    it('should escape backslash itself', () => {
+      const result = tokenize('[ ] Path is C:\\\\Users\\\\name');
+      const text = result.tokens.filter(t => t.type === TokenType.TEXT);
+      const combined = text.map(t => t.value).join('');
+      expect(combined).toContain('C:\\Users\\name');
+    });
+
+    it('should escape [ to prevent status parsing', () => {
+      const result = tokenize('[ ] Array \\[0] access');
+      const text = result.tokens.filter(t => t.type === TokenType.TEXT);
+      const combined = text.map(t => t.value).join('');
+      expect(combined).toContain('[0]');
+    });
+
+    it('should handle multiple escapes in one line', () => {
+      const result = tokenize('[ ] Use \\#tag and \\@mention and \\~time');
+      const tags = result.tokens.filter(t => t.type === TokenType.TAG);
+      const assignees = result.tokens.filter(t => t.type === TokenType.ASSIGNEE);
+      const estimates = result.tokens.filter(t => t.type === TokenType.ESTIMATE);
+      expect(tags).toHaveLength(0);
+      expect(assignees).toHaveLength(0);
+      expect(estimates).toHaveLength(0);
+    });
+
+    it('should not escape regular characters', () => {
+      const result = tokenize('[ ] Regular \\text here');
+      // Backslash before non-special char stays as backslash
+      const text = result.tokens.filter(t => t.type === TokenType.TEXT);
+      const combined = text.map(t => t.value).join('');
+      expect(combined).toContain('\\text');
+    });
+  });
 });

@@ -104,6 +104,13 @@ export class Lexer {
       return;
     }
 
+    // Escape sequence - treat as text
+    if (char === '\\' && this.isEscapable(this.peekNext())) {
+      this.advance(); // consume backslash
+      this.addToken(TokenType.TEXT, this.advance()); // escaped char as text
+      return;
+    }
+
     // Directive
     if (char === '@' && this.column <= this.currentIndent() + 2) {
       this.scanDirective();
@@ -516,6 +523,13 @@ export class Lexer {
       // Stop at end of line
       if (char === '\n' || char === '\r') break;
 
+      // Handle escape sequences
+      if (char === '\\' && this.isEscapable(this.peekNext())) {
+        this.advance(); // consume backslash
+        text += this.advance(); // add the escaped character literally
+        continue;
+      }
+
       // Stop at special characters that might start tokens
       if (this.isTokenStart(char)) break;
 
@@ -525,6 +539,21 @@ export class Lexer {
     if (text) {
       this.addToken(TokenType.TEXT, text, startCol);
     }
+  }
+
+  private isEscapable(char: string): boolean {
+    return (
+      char === '#' ||
+      char === '@' ||
+      char === '~' ||
+      char === '!' ||
+      char === '^' ||
+      char === '[' ||
+      char === '\\' ||
+      char === '✓' ||
+      char === '✗' ||
+      char === '○'
+    );
   }
 
   private isTokenStart(char: string): boolean {

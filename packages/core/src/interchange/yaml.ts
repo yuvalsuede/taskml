@@ -13,6 +13,7 @@ import type {
   Criterion,
   AgentContext,
   HandoffInfo,
+  Comment,
 } from '../types';
 
 /**
@@ -75,6 +76,15 @@ export function toYAML(doc: Document): string {
     lines.push(`  to: "${escapeYAML(doc.handoff.to)}"`);
     if (doc.handoff.reason) {
       lines.push(`  reason: "${escapeYAML(doc.handoff.reason)}"`);
+    }
+  }
+
+  // Comments
+  if (doc.comments && doc.comments.length > 0) {
+    lines.push('comments:');
+    for (const comment of doc.comments) {
+      lines.push(`  - line: ${comment.line}`);
+      lines.push(`    text: "${escapeYAML(comment.text)}"`);
     }
   }
 
@@ -264,6 +274,23 @@ export function fromYAML(yaml: string): Document {
         i++;
       }
       doc.handoff = handoff;
+    } else if (trimmed === 'comments:') {
+      i++;
+      const comments: Comment[] = [];
+      while (i < lines.length && lines[i].startsWith('  ') && lines[i].trim().startsWith('- line:')) {
+        const linePart = lines[i].trim();
+        const lineNum = parseInt(parseYAMLValue(linePart.slice(7)), 10);
+        i++;
+        let text = '';
+        if (i < lines.length && lines[i].trim().startsWith('text:')) {
+          text = parseYAMLValue(lines[i].trim().slice(5));
+          i++;
+        }
+        comments.push({ line: lineNum, text });
+      }
+      if (comments.length > 0) {
+        doc.comments = comments;
+      }
     } else {
       i++;
     }

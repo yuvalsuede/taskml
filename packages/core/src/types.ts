@@ -63,6 +63,11 @@ export interface HandoffInfo {
   context?: Record<string, unknown>;
 }
 
+export interface Comment {
+  line: number;
+  text: string;
+}
+
 export interface Document {
   version: string;
   directives: Record<string, string>;
@@ -70,6 +75,7 @@ export interface Document {
   view?: ViewConfig;
   agentContext?: AgentContext;
   handoff?: HandoffInfo;
+  comments?: Comment[];
 }
 
 export interface ParseOptions {

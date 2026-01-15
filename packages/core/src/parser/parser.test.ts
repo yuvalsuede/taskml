@@ -245,4 +245,39 @@ describe('TaskML Parser', () => {
       expect(result.document?.view?.type).toBe('kanban');
     });
   });
+
+  describe('Comment preservation', () => {
+    it('should capture comments from TaskML source', () => {
+      const result = parse(`// Header comment
+@project Test
+
+// Before task
+[ ] Do something
+// After task
+`);
+
+      expect(result.errors).toHaveLength(0);
+      expect(result.document?.comments).toBeDefined();
+      expect(result.document?.comments).toHaveLength(3);
+      expect(result.document?.comments?.[0].text).toBe('Header comment');
+      expect(result.document?.comments?.[0].line).toBe(1);
+    });
+
+    it('should preserve comment line numbers', () => {
+      const result = parse(`[ ] Task 1
+// Comment on line 2
+[ ] Task 2
+// Comment on line 4`);
+
+      expect(result.document?.comments).toHaveLength(2);
+      expect(result.document?.comments?.[0].line).toBe(2);
+      expect(result.document?.comments?.[1].line).toBe(4);
+    });
+
+    it('should handle documents without comments', () => {
+      const result = parse(`[ ] Task without comments`);
+
+      expect(result.document?.comments).toBeUndefined();
+    });
+  });
 });

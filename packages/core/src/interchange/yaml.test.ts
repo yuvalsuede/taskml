@@ -473,4 +473,57 @@ tasks:
       expect(doc.tasks[0].status).toBe('completed');
     });
   });
+
+  describe('Comment preservation', () => {
+    it('should preserve comments in toYAML', () => {
+      const doc: Document = {
+        version: '1.1',
+        directives: {},
+        tasks: [],
+        comments: [
+          { line: 1, text: 'First comment' },
+          { line: 5, text: 'Second comment' },
+        ],
+      };
+
+      const yaml = toYAML(doc);
+      expect(yaml).toContain('comments:');
+      expect(yaml).toContain('line: 1');
+      expect(yaml).toContain('text: "First comment"');
+      expect(yaml).toContain('line: 5');
+    });
+
+    it('should restore comments from YAML', () => {
+      const yaml = `version: "1.1"
+tasks: []
+comments:
+  - line: 3
+    text: "A comment"`;
+
+      const doc = fromYAML(yaml);
+      expect(doc.comments).toBeDefined();
+      expect(doc.comments).toHaveLength(1);
+      expect(doc.comments![0].line).toBe(3);
+      expect(doc.comments![0].text).toBe('A comment');
+    });
+
+    it('should round-trip comments through YAML', () => {
+      const original: Document = {
+        version: '1.1',
+        directives: {},
+        tasks: [{ status: 'pending', description: 'Task' }],
+        comments: [
+          { line: 1, text: 'Header comment' },
+          { line: 10, text: 'Footer comment' },
+        ],
+      };
+
+      const yaml = toYAML(original);
+      const restored = fromYAML(yaml);
+
+      expect(restored.comments).toHaveLength(2);
+      expect(restored.comments![0].text).toBe('Header comment');
+      expect(restored.comments![1].text).toBe('Footer comment');
+    });
+  });
 });

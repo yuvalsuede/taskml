@@ -13,6 +13,11 @@ import type {
 /**
  * JSON representation of a TaskML document
  */
+export interface CommentJSON {
+  line: number;
+  text: string;
+}
+
 export interface TaskMLJSON {
   version: string;
   directives?: Record<string, string>;
@@ -20,6 +25,7 @@ export interface TaskMLJSON {
   view?: ViewConfigJSON;
   agentContext?: AgentContextJSON;
   handoff?: HandoffInfoJSON;
+  comments?: CommentJSON[];
 }
 
 export interface TaskJSON {
@@ -95,6 +101,10 @@ export function toJSON(doc: Document): TaskMLJSON {
     result.handoff = { ...doc.handoff };
   }
 
+  if (doc.comments && doc.comments.length > 0) {
+    result.comments = doc.comments.map(c => ({ line: c.line, text: c.text }));
+  }
+
   return result;
 }
 
@@ -165,6 +175,10 @@ export function fromJSON(json: TaskMLJSON): Document {
 
   if (json.handoff) {
     doc.handoff = { ...json.handoff };
+  }
+
+  if (json.comments && json.comments.length > 0) {
+    doc.comments = json.comments.map(c => ({ line: c.line, text: c.text }));
   }
 
   return doc;

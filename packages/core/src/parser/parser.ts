@@ -12,6 +12,7 @@ import type {
   Criterion,
   AgentContext,
   HandoffInfo,
+  Comment,
   ParseError,
   ParseResult,
   ParseOptions,
@@ -59,6 +60,7 @@ export class Parser {
   private parseDocument(): Document {
     const directives: Record<string, string> = {};
     const tasks: Task[] = [];
+    const comments: Comment[] = [];
     let view: ViewConfig | undefined;
     let agentContext: AgentContext | undefined;
     let handoff: HandoffInfo | undefined;
@@ -116,9 +118,10 @@ export class Parser {
         continue;
       }
 
-      // Check for comment (skip)
+      // Check for comment (preserve)
       if (this.check(TokenType.COMMENT)) {
-        this.advance();
+        const token = this.advance();
+        comments.push({ line: token.line, text: token.value });
         continue;
       }
 
@@ -135,14 +138,18 @@ export class Parser {
       }
     }
 
-    return {
+    const doc: Document = {
       version: directives['version'] ?? '1.1',
       directives,
       tasks,
-      view,
-      agentContext,
-      handoff,
     };
+
+    if (view) doc.view = view;
+    if (agentContext) doc.agentContext = agentContext;
+    if (handoff) doc.handoff = handoff;
+    if (comments.length > 0) doc.comments = comments;
+
+    return doc;
   }
 
   private parseTask(depth: number): Task | null {
@@ -515,7 +522,7 @@ export class Parser {
  */
 export function parse(input: string, options?: ParseOptions): ParseResult {
   const lexerOptions: LexerOptions = {
-    preserveComments: false,
+    preserveComments: true,
   };
 
   const { tokens, errors: lexerErrors } = tokenize(input, lexerOptions);
