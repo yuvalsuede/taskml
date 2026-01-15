@@ -1,21 +1,21 @@
-# @taskml/core
+# taskml
 
 The official TaskML parser and renderer library for TypeScript/JavaScript.
 
 ## Installation
 
 ```bash
-npm install @taskml/core
+npm install taskml
 # or
-bun add @taskml/core
+bun add taskml
 # or
-pnpm add @taskml/core
+pnpm add taskml
 ```
 
 ### Browser (CDN)
 
 ```html
-<script src="https://unpkg.com/@taskml/core/dist/index.browser.js"></script>
+<script src="https://unpkg.com/taskml/dist/index.browser.js"></script>
 <script>
   const { parse, toJSON, toYAML } = TaskML;
   const doc = parse('[x] My completed task #done');
@@ -26,7 +26,7 @@ pnpm add @taskml/core
 ## Quick Start
 
 ```typescript
-import { parse, toJSON, toYAML } from '@taskml/core';
+import { parse, toJSON, toYAML } from 'taskml';
 
 const taskml = `
 @project My Project
@@ -109,7 +109,7 @@ tokens.forEach(token => {
 ### JSON
 
 ```typescript
-import { toJSON, fromJSON, stringifyJSON, parseJSON } from '@taskml/core';
+import { toJSON, fromJSON, stringifyJSON, parseJSON } from 'taskml';
 
 // Document -> JSON object
 const json = toJSON(doc);
@@ -127,7 +127,7 @@ const doc = parseJSON(jsonString);
 ### YAML
 
 ```typescript
-import { toYAML, fromYAML, stringifyYAML, parseYAMLString } from '@taskml/core';
+import { toYAML, fromYAML, stringifyYAML, parseYAMLString } from 'taskml';
 
 // Document -> YAML string
 const yaml = toYAML(doc);
