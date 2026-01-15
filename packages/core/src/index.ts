@@ -5,6 +5,8 @@
  */
 
 export * from './types';
+export { tokenize, Token, TokenType } from './lexer';
+export { parse } from './parser';
 
 import type {
   Document,
@@ -12,41 +14,7 @@ import type {
   ParseResult,
   RenderOptions
 } from './types';
-
-/**
- * Parse a TaskML string into a Document AST.
- *
- * @param input - The TaskML string to parse
- * @param options - Parse options
- * @returns ParseResult containing the document or errors
- *
- * @example
- * ```typescript
- * const result = parse(`
- *   @project My Project
- *   [x] Task one #p0
- *   [ ] Task two #p1
- * `);
- *
- * if (result.document) {
- *   console.log(result.document.tasks);
- * }
- * ```
- */
-export function parse(input: string, options?: ParseOptions): ParseResult {
-  // TODO: Implement parser in Sprint 2
-  void options;
-  void input;
-
-  return {
-    document: {
-      version: '1.1',
-      directives: {},
-      tasks: [],
-    },
-    errors: [],
-  };
-}
+import { parse as parseImpl } from './parser';
 
 /**
  * Parse a TaskML string, throwing on errors.
@@ -57,7 +25,7 @@ export function parse(input: string, options?: ParseOptions): ParseResult {
  * @throws Error if parsing fails
  */
 export function parseOrThrow(input: string, options?: ParseOptions): Document {
-  const result = parse(input, options);
+  const result = parseImpl(input, options);
 
   if (result.errors.length > 0) {
     const errorMessages = result.errors
@@ -112,7 +80,7 @@ export function render(doc: Document, options?: RenderOptions): string {
  * @returns Array of validation errors (empty if valid)
  */
 export function validate(input: string): ParseResult['errors'] {
-  const result = parse(input, { strict: true });
+  const result = parseImpl(input, { strict: true });
   return result.errors;
 }
 
