@@ -113,6 +113,9 @@ export class Lexer {
     // Task status [ ]
     if (char === '[') {
       if (this.scanStatus()) return;
+      // If not a valid status, consume '[' as text to prevent infinite loop
+      this.addToken(TokenType.TEXT, this.advance());
+      return;
     }
 
     // View/Context/Handoff fence
@@ -145,11 +148,17 @@ export class Lexer {
     // Estimate ~4h
     if (char === '~') {
       if (this.scanEstimate()) return;
+      // If not a valid estimate, consume '~' as text to prevent infinite loop
+      this.addToken(TokenType.TEXT, this.advance());
+      return;
     }
 
     // Due date !2026-01-15
     if (char === '!') {
       if (this.scanDueDate()) return;
+      // If not a valid due date, consume '!' as text to prevent infinite loop
+      this.addToken(TokenType.TEXT, this.advance());
+      return;
     }
 
     // Task ID ^id

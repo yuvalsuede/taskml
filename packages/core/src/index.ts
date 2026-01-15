@@ -9,6 +9,22 @@ export { tokenize, TokenType } from './lexer';
 export type { Token } from './lexer';
 export { parse } from './parser';
 
+// Interchange formats
+export {
+  toJSON,
+  fromJSON,
+  stringify as stringifyJSON,
+  parseJSON,
+} from './interchange/json';
+export type { TaskMLJSON, TaskJSON, CriterionJSON, ViewConfigJSON } from './interchange/json';
+
+export {
+  toYAML,
+  fromYAML,
+  stringify as stringifyYAML,
+  parseYAMLString,
+} from './interchange/yaml';
+
 import type {
   Document,
   ParseOptions,
