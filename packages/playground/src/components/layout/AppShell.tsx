@@ -17,7 +17,7 @@ import { ExamplesDialog } from '../dialogs/ExamplesDialog';
 import { SettingsDialog } from '../dialogs/SettingsDialog';
 import { ShortcutsDialog } from '../dialogs/ShortcutsDialog';
 import { useUIStore } from '../../stores';
-import { useIsMobile, useURLSync, useTaskML, useTheme } from '../../hooks';
+import { useIsMobile, useURLSync, useTaskML, useTheme, useKeyboardShortcuts } from '../../hooks';
 
 export function AppShell() {
   const isMobile = useIsMobile();
@@ -30,6 +30,7 @@ export function AppShell() {
   useURLSync();
   useTaskML();
   useTheme();
+  useKeyboardShortcuts();
 
   // Track mobile state
   useEffect(() => {
