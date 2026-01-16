@@ -23,6 +23,8 @@
     "clean": "turbo clean && rm -rf node_modules"
   },
   "devDependencies": {
+    "eslint": "^9.39.2",
+    "monaco-editor": "^0.55.1",
     "prettier": "^3.2.0",
     "turbo": "^2.0.0",
     "typescript": "^5.3.0"

@@ -25,11 +25,38 @@ export {
   parseYAMLString,
 } from './interchange/yaml';
 
+// Renderer
+export {
+  render,
+  getStyles,
+  getRenderer,
+  registerRenderer,
+  getAvailableViews,
+  createContext,
+  toRenderableTasks,
+  flattenTasks,
+  groupByStatus,
+  calculateStats,
+  escapeHtml,
+  generateCSSVars,
+  CSS_VARS,
+  DARK_THEME_VARS,
+  STATUS_CONFIG,
+  PRIORITY_CONFIG,
+} from './renderer';
+
+export type {
+  RenderContext,
+  ViewRenderer,
+  RenderableTask,
+  StatusConfig,
+  PriorityConfig,
+} from './renderer';
+
 import type {
   Document,
   ParseOptions,
   ParseResult,
-  RenderOptions
 } from './types';
 import { parse as parseImpl } from './parser';
 
@@ -56,38 +83,6 @@ export function parseOrThrow(input: string, options?: ParseOptions): Document {
   }
 
   return result.document;
-}
-
-/**
- * Render a TaskML Document to various output formats.
- *
- * @param doc - The Document to render
- * @param options - Render options
- * @returns The rendered output string
- *
- * @example
- * ```typescript
- * const html = render(doc, { format: 'html', view: 'kanban' });
- * const md = render(doc, { format: 'markdown' });
- * ```
- */
-export function render(doc: Document, options?: RenderOptions): string {
-  const format = options?.format ?? 'text';
-
-  // TODO: Implement renderers in Sprint 2-3
-  void doc;
-
-  switch (format) {
-    case 'json':
-      return JSON.stringify(doc, null, 2);
-    case 'html':
-      return '<!-- HTML renderer not yet implemented -->';
-    case 'markdown':
-      return '<!-- Markdown renderer not yet implemented -->';
-    case 'text':
-    default:
-      return '// Text renderer not yet implemented';
-  }
 }
 
 /**
