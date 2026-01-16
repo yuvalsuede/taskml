@@ -22,9 +22,11 @@ const SHORTCUT_GROUPS: ShortcutGroup[] = [
     shortcuts: [
       { keys: ['?'], description: 'Show shortcuts' },
       { keys: ['Esc'], description: 'Close dialog' },
-      { keys: ['Ctrl', 'S'], description: 'Share link' },
+      { keys: ['Ctrl', 'S'], description: 'Save diagram' },
+      { keys: ['Ctrl', 'Shift', 'S'], description: 'Share link' },
+      { keys: ['Ctrl', 'L'], description: 'My Diagrams' },
       { keys: ['Ctrl', 'E'], description: 'Export' },
-      { keys: ['Ctrl', 'O'], description: 'Open examples' },
+      { keys: ['Ctrl', 'O'], description: 'Templates' },
       { keys: ['Ctrl', ','], description: 'Settings' },
       { keys: ['Ctrl', 'D'], description: 'Toggle theme' },
       { keys: ['Ctrl', 'B'], description: 'Toggle error panel' },

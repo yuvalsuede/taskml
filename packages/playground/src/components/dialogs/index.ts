@@ -8,3 +8,5 @@ export { ExportDialog } from './ExportDialog';
 export { ExamplesDialog } from './ExamplesDialog';
 export { SettingsDialog } from './SettingsDialog';
 export { ShortcutsDialog } from './ShortcutsDialog';
+export { DiagramsDialog } from './DiagramsDialog';
+export { SaveDialog } from './SaveDialog';

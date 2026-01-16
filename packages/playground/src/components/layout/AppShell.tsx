@@ -16,6 +16,8 @@ import { ExportDialog } from '../dialogs/ExportDialog';
 import { ExamplesDialog } from '../dialogs/ExamplesDialog';
 import { SettingsDialog } from '../dialogs/SettingsDialog';
 import { ShortcutsDialog } from '../dialogs/ShortcutsDialog';
+import { DiagramsDialog } from '../dialogs/DiagramsDialog';
+import { SaveDialog } from '../dialogs/SaveDialog';
 import { useUIStore } from '../../stores';
 import { useIsMobile, useURLSync, useTaskML, useTheme, useKeyboardShortcuts } from '../../hooks';
 
@@ -80,6 +82,8 @@ export function AppShell() {
       {activeDialog === 'examples' && <ExamplesDialog />}
       {activeDialog === 'settings' && <SettingsDialog />}
       {activeDialog === 'shortcuts' && <ShortcutsDialog />}
+      {activeDialog === 'diagrams' && <DiagramsDialog />}
+      {activeDialog === 'save' && <SaveDialog />}
     </div>
   );
 }

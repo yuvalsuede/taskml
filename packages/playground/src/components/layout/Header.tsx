@@ -14,6 +14,8 @@ import {
   Monitor,
   BookOpen,
   Keyboard,
+  Save,
+  FolderOpen,
 } from 'lucide-react';
 import { Button, Tooltip } from '../ui';
 import { useUIStore, usePreviewStore } from '../../stores';
@@ -39,14 +41,25 @@ export function Header() {
         </a>
 
         <div className="hidden md:flex items-center gap-1">
-          <Tooltip content="Load example" shortcut="Ctrl+O">
+          <Tooltip content="Templates" shortcut="Ctrl+O">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => openDialog('examples')}
             >
               <BookOpen className="w-4 h-4" />
-              <span className="hidden lg:inline">Examples</span>
+              <span className="hidden lg:inline">Templates</span>
+            </Button>
+          </Tooltip>
+
+          <Tooltip content="My Diagrams" shortcut="Ctrl+L">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => openDialog('diagrams')}
+            >
+              <FolderOpen className="w-4 h-4" />
+              <span className="hidden lg:inline">My Diagrams</span>
             </Button>
           </Tooltip>
         </div>
@@ -61,7 +74,18 @@ export function Header() {
         </Tooltip>
 
         <div className="hidden sm:flex items-center gap-1">
-          <Tooltip content="Share" shortcut="Ctrl+S">
+          <Tooltip content="Save" shortcut="Ctrl+S">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => openDialog('save')}
+            >
+              <Save className="w-4 h-4" />
+              <span className="hidden lg:inline">Save</span>
+            </Button>
+          </Tooltip>
+
+          <Tooltip content="Share" shortcut="Ctrl+Shift+S">
             <Button
               variant="ghost"
               size="sm"

@@ -63,10 +63,24 @@ export function useKeyboardShortcuts() {
       return;
     }
 
-    // Ctrl/Cmd + S - Share
+    // Ctrl/Cmd + S - Save
     if (modKey && e.key === 's') {
       e.preventDefault();
+      openDialog('save');
+      return;
+    }
+
+    // Ctrl/Cmd + Shift + S - Share
+    if (modKey && e.shiftKey && e.key === 's') {
+      e.preventDefault();
       openDialog('share');
+      return;
+    }
+
+    // Ctrl/Cmd + L - My Diagrams
+    if (modKey && e.key === 'l') {
+      e.preventDefault();
+      openDialog('diagrams');
       return;
     }
 
