@@ -108,16 +108,41 @@ export function updateURL(state: URLState): void {
 }
 
 /**
+ * Generate embed URL using the dedicated /embed route
+ */
+export function buildEmbedURL(state: URLState): string {
+  const url = new URL(window.location.origin + '/embed');
+
+  // Compress content for query param
+  if (state.content) {
+    url.searchParams.set('c', encodeContent(state.content));
+  }
+
+  // View type
+  if (state.view && state.view !== 'list') {
+    url.searchParams.set('view', state.view);
+  }
+
+  // Theme (default to light for embeds)
+  if (state.theme && state.theme !== 'auto') {
+    url.searchParams.set('theme', state.theme === 'dark' ? 'dark' : 'light');
+  }
+
+  return url.toString();
+}
+
+/**
  * Generate embed code for iframe
  */
-export function generateEmbedCode(state: URLState, width = 800, height = 600): string {
-  const url = buildURL({ ...state, embed: true, readonly: true });
+export function generateEmbedCode(state: URLState, width = '100%', height = 400): string {
+  const url = buildEmbedURL(state);
   return `<iframe
   src="${url}"
   width="${width}"
   height="${height}"
   style="border: 1px solid #e5e7eb; border-radius: 8px;"
-  title="TaskML Playground"
+  title="TaskML Diagram"
+  loading="lazy"
 ></iframe>`;
 }
 
