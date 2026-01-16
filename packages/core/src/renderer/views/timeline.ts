@@ -4,14 +4,14 @@
 
 import type { ViewRenderer, RenderContext, RenderableTask } from '../types';
 import { getBaseStyles, renderStatusIcon, renderPriority } from '../base';
-import { escapeHtml, toRenderableTasks, flattenTasks } from '../utils';
+import { escapeHtml, toRenderableTasks, getAllTasks, flattenTasks } from '../utils';
 
 export class TimelineViewRenderer implements ViewRenderer {
   readonly viewType = 'timeline' as const;
 
   render(ctx: RenderContext): string {
     const { cls, document } = ctx;
-    const tasks = toRenderableTasks(document.tasks);
+    const tasks = toRenderableTasks(getAllTasks(document));
     const flat = flattenTasks(tasks);
 
     // Parse due dates and estimates to create timeline bars

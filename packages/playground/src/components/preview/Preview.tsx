@@ -21,7 +21,11 @@ export function Preview() {
   const document = useEditorStore((s) => s.document);
   const errors = useEditorStore((s) => s.errors);
 
-  const hasContent = document && document.tasks.length > 0;
+  // Check for content in both root tasks and sections
+  const hasContent = document && (
+    document.tasks.length > 0 ||
+    (document.sections && document.sections.some(s => s.tasks && s.tasks.length > 0))
+  );
   const hasErrors = errors.length > 0;
 
   const isGraphView = viewType === 'graph';

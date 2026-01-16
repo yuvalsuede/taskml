@@ -10,14 +10,14 @@ import {
   renderTags,
   renderAssignee,
 } from '../base';
-import { escapeHtml, toRenderableTasks } from '../utils';
+import { escapeHtml, toRenderableTasks, getAllTasks } from '../utils';
 
 export class TreeViewRenderer implements ViewRenderer {
   readonly viewType = 'tree' as const;
 
   render(ctx: RenderContext): string {
     const { cls, document } = ctx;
-    const tasks = toRenderableTasks(document.tasks);
+    const tasks = toRenderableTasks(getAllTasks(document));
 
     const treeHtml = tasks.map(task => this.renderNode(ctx, task)).join('');
 

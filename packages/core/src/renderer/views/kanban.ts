@@ -11,7 +11,7 @@ import {
   renderAssignee,
   renderProgressBar,
 } from '../base';
-import { escapeHtml, toRenderableTasks, groupByStatus, flattenTasks } from '../utils';
+import { escapeHtml, toRenderableTasks, getAllTasks, groupByStatus, flattenTasks } from '../utils';
 import type { TaskStatus } from '../../types';
 
 export class KanbanViewRenderer implements ViewRenderer {
@@ -19,7 +19,7 @@ export class KanbanViewRenderer implements ViewRenderer {
 
   render(ctx: RenderContext): string {
     const { cls, document, options } = ctx;
-    const tasks = toRenderableTasks(document.tasks);
+    const tasks = toRenderableTasks(getAllTasks(document));
     const flat = flattenTasks(tasks);
 
     // Determine columns from options or use defaults

@@ -5,7 +5,7 @@
 import type { ViewRenderer, RenderContext, RenderableTask } from '../types';
 import { STATUS_CONFIG, PRIORITY_CONFIG } from '../theme';
 import { getBaseStyles } from '../base';
-import { toRenderableTasks, flattenTasks } from '../utils';
+import { toRenderableTasks, getAllTasks, flattenTasks } from '../utils';
 import type { TaskStatus } from '../../types';
 
 interface SummaryStats {
@@ -22,7 +22,7 @@ export class SummaryViewRenderer implements ViewRenderer {
 
   render(ctx: RenderContext): string {
     const { cls, document } = ctx;
-    const tasks = toRenderableTasks(document.tasks);
+    const tasks = toRenderableTasks(getAllTasks(document));
     const flat = flattenTasks(tasks);
     const stats = this.computeStats(tasks, flat);
 

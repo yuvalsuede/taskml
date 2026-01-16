@@ -6,7 +6,7 @@
 import type { ViewRenderer, RenderContext, RenderableTask } from '../types';
 import { STATUS_CONFIG } from '../theme';
 import { getBaseStyles } from '../base';
-import { escapeHtml, toRenderableTasks, flattenTasks } from '../utils';
+import { escapeHtml, toRenderableTasks, getAllTasks, flattenTasks } from '../utils';
 
 interface GraphNode {
   task: RenderableTask;
@@ -40,7 +40,7 @@ export class GraphViewRenderer implements ViewRenderer {
 
   render(ctx: RenderContext): string {
     const { cls, document } = ctx;
-    const tasks = toRenderableTasks(document.tasks);
+    const tasks = toRenderableTasks(getAllTasks(document));
     const flat = flattenTasks(tasks);
 
     // Only show tasks that have IDs (can be referenced) or have dependencies

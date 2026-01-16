@@ -11,14 +11,15 @@ import {
   renderCriteria,
   renderNotes,
 } from '../base';
-import { escapeHtml, toRenderableTasks } from '../utils';
+import { escapeHtml, toRenderableTasks, getAllTasks } from '../utils';
 
 export class ListViewRenderer implements ViewRenderer {
   readonly viewType = 'list' as const;
 
   render(ctx: RenderContext): string {
     const { cls, document } = ctx;
-    const tasks = toRenderableTasks(document.tasks);
+    const allTasks = getAllTasks(document);
+    const tasks = toRenderableTasks(allTasks);
 
     const header = this.renderHeader(ctx);
     const taskList = this.renderTasks(ctx, tasks);

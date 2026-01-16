@@ -699,7 +699,7 @@ export const EXAMPLES: Example[] = [
 
 == Query Understanding ==
 
-[x] Parse Query !0
+[x] Parse Query #p0
   [x] Extract topic: fusion energy
   [x] Time constraint: 2024
   [x] Intent: news/breakthroughs
@@ -1058,7 +1058,7 @@ export const EXAMPLES: Example[] = [
 
 == 📝 Follow-up ==
 
-[ ] Post-Mortem !1 @sarah >2024-01-18
+[ ] Post-Mortem #p1 @sarah !2024-01-18
   [ ] 5 Whys analysis
   [ ] Timeline documentation
   [ ] Action items

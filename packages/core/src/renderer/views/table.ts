@@ -5,14 +5,14 @@
 import type { ViewRenderer, RenderContext, RenderableTask } from '../types';
 import { STATUS_CONFIG, PRIORITY_CONFIG } from '../theme';
 import { getBaseStyles, renderStatusIcon, renderTags } from '../base';
-import { escapeHtml, toRenderableTasks, flattenTasks } from '../utils';
+import { escapeHtml, toRenderableTasks, getAllTasks, flattenTasks } from '../utils';
 
 export class TableViewRenderer implements ViewRenderer {
   readonly viewType = 'table' as const;
 
   render(ctx: RenderContext): string {
     const { cls, document, options } = ctx;
-    const tasks = toRenderableTasks(document.tasks);
+    const tasks = toRenderableTasks(getAllTasks(document));
     const flat = flattenTasks(tasks);
 
     // Determine visible columns from options or use defaults

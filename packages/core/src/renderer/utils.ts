@@ -121,6 +121,23 @@ function countSubtasks(task: Task): { total: number; completed: number } {
 }
 
 /**
+ * Get all tasks from document (including tasks in sections)
+ */
+export function getAllTasks(doc: Document): Task[] {
+  const allTasks: Task[] = [...doc.tasks];
+
+  if (doc.sections) {
+    for (const section of doc.sections) {
+      if (section.tasks) {
+        allTasks.push(...section.tasks);
+      }
+    }
+  }
+
+  return allTasks;
+}
+
+/**
  * Flatten tasks into a single array (for table/list views)
  */
 export function flattenTasks(tasks: RenderableTask[]): RenderableTask[] {
@@ -184,7 +201,8 @@ export function calculateStats(doc: Document): {
   byPriority: Record<number, number>;
   progress: number;
 } {
-  const flat = flattenTasks(toRenderableTasks(doc.tasks));
+  const allTasks = getAllTasks(doc);
+  const flat = flattenTasks(toRenderableTasks(allTasks));
   const total = flat.length;
 
   const byStatus: Record<string, number> = {};
