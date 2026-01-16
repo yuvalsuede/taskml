@@ -29,18 +29,18 @@ interface EditorState {
 const DEFAULT_CONTENT = `@project My Project
 @sprint Sprint 1
 
-[ ] Set up development environment !0 @alice
-  ○ Install dependencies
-  ○ Configure IDE
-  ● Create project structure
+[ ] Set up development environment #p0 @alice
+  [ ] Install dependencies
+  [ ] Configure IDE
+  [x] Create project structure
 
-[~] Implement core features !1 @bob ~8h
+[~] Implement core features #p1 @bob ~8h
   [ ] User authentication
   [~] Data persistence
   [ ] API endpoints
 
-[ ] Write documentation !2 ~4h
-[ ] Deploy to production !1 >2024-02-01
+[ ] Write documentation #p2 ~4h
+[ ] Deploy to production #p1 !2024-02-01
 `;
 
 export const useEditorStore = create<EditorState>((set, get) => ({
