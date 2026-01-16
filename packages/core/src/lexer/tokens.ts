@@ -48,6 +48,12 @@ export enum TokenType {
   HANDOFF_START = 'HANDOFF_START', // ---handoff
   FENCE_END = 'FENCE_END',         // ---
 
+  // Sections
+  SECTION = 'SECTION',             // == Section Title ==
+
+  // Includes
+  INCLUDE = 'INCLUDE',             // < path/to/file.taskml
+
   // Content
   TEXT = 'TEXT',
   IDENTIFIER = 'IDENTIFIER',

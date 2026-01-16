@@ -246,6 +246,146 @@ describe('TaskML Parser', () => {
     });
   });
 
+  describe('Sections', () => {
+    it('should parse section headers', () => {
+      const input = `== Sprint 1 ==
+[ ] Task in sprint 1
+
+== Sprint 2 ==
+[ ] Task in sprint 2`;
+
+      const result = parse(input);
+      expect(result.errors).toHaveLength(0);
+      expect(result.document?.sections).toHaveLength(2);
+      expect(result.document?.sections?.[0].title).toBe('Sprint 1');
+      expect(result.document?.sections?.[0].tasks).toHaveLength(1);
+      expect(result.document?.sections?.[1].title).toBe('Sprint 2');
+      expect(result.document?.sections?.[1].tasks).toHaveLength(1);
+    });
+
+    it('should parse section without trailing ==', () => {
+      const input = `== My Section
+[ ] Task in section`;
+
+      const result = parse(input);
+      expect(result.errors).toHaveLength(0);
+      expect(result.document?.sections).toHaveLength(1);
+      expect(result.document?.sections?.[0].title).toBe('My Section');
+    });
+
+    it('should track section level', () => {
+      const input = `== Level 2 ==
+[ ] Task
+
+=== Level 3 ===
+[ ] Another task`;
+
+      const result = parse(input);
+      expect(result.errors).toHaveLength(0);
+      expect(result.document?.sections?.[0].level).toBe(2);
+      expect(result.document?.sections?.[1].level).toBe(3);
+    });
+
+    it('should keep root tasks separate from section tasks', () => {
+      const input = `[ ] Root task
+
+== Section 1 ==
+[ ] Section task`;
+
+      const result = parse(input);
+      expect(result.errors).toHaveLength(0);
+      expect(result.document?.tasks).toHaveLength(1);
+      expect(result.document?.tasks[0].description).toContain('Root task');
+      expect(result.document?.sections).toHaveLength(1);
+      expect(result.document?.sections?.[0].tasks).toHaveLength(1);
+    });
+
+    it('should handle empty sections', () => {
+      const input = `== Empty Section ==
+
+== Section with tasks ==
+[ ] A task`;
+
+      const result = parse(input);
+      expect(result.errors).toHaveLength(0);
+      // Empty section should not be included
+      expect(result.document?.sections).toHaveLength(1);
+      expect(result.document?.sections?.[0].title).toBe('Section with tasks');
+    });
+  });
+
+  describe('Includes', () => {
+    it('should parse include directives', () => {
+      const input = `< ./tasks/sprint1.taskml
+< ../common/templates.taskml
+
+[ ] Local task`;
+
+      const result = parse(input);
+      expect(result.errors).toHaveLength(0);
+      expect(result.document?.includes).toHaveLength(2);
+      expect(result.document?.includes?.[0].path).toBe('./tasks/sprint1.taskml');
+      expect(result.document?.includes?.[1].path).toBe('../common/templates.taskml');
+    });
+
+    it('should track include line numbers', () => {
+      const input = `< file1.taskml
+[ ] Task
+< file2.taskml`;
+
+      const result = parse(input);
+      expect(result.document?.includes?.[0].line).toBe(1);
+      expect(result.document?.includes?.[1].line).toBe(3);
+    });
+
+    it('should handle includes with spaces in path', () => {
+      const input = `< ./path/with spaces/file.taskml`;
+
+      const result = parse(input);
+      expect(result.errors).toHaveLength(0);
+      expect(result.document?.includes?.[0].path).toBe('./path/with spaces/file.taskml');
+    });
+  });
+
+  describe('Canonical order validation', () => {
+    it('should not warn on correct token order', () => {
+      const input = `[ ] Task description #p0 ~4h @alice #backend !2026-01-15 ^task-1`;
+      const result = parse(input, { strict: true });
+      expect(result.warnings).toBeUndefined();
+    });
+
+    it('should warn when priority comes after estimate in strict mode', () => {
+      const input = `[ ] Task ~4h #p0`;
+      const result = parse(input, { strict: true });
+      expect(result.warnings).toBeDefined();
+      expect(result.warnings).toHaveLength(1);
+      expect(result.warnings?.[0].message).toContain('priority');
+      expect(result.warnings?.[0].message).toContain('estimate');
+    });
+
+    it('should warn when task ID comes before due date in strict mode', () => {
+      const input = `[ ] Task ^task-1 !2026-01-15`;
+      const result = parse(input, { strict: true });
+      expect(result.warnings).toBeDefined();
+      expect(result.warnings?.[0].message).toContain('due date');
+    });
+
+    it('should not warn in non-strict mode', () => {
+      const input = `[ ] Task ~4h #p0`;
+      const result = parse(input); // non-strict by default
+      expect(result.warnings).toBeUndefined();
+    });
+
+    it('should still parse correctly despite order warnings', () => {
+      const input = `[ ] Task ~4h #p0 @bob`;
+      const result = parse(input, { strict: true });
+      expect(result.errors).toHaveLength(0);
+      expect(result.document?.tasks[0].estimate).toBe('4h');
+      expect(result.document?.tasks[0].priority).toBe(0);
+      expect(result.document?.tasks[0].assignee).toBe('bob');
+    });
+  });
+
   describe('Comment preservation', () => {
     it('should capture comments from TaskML source', () => {
       const result = parse(`// Header comment

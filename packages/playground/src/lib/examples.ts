@@ -2,1134 +2,1305 @@
  * Built-in example templates
  *
  * Beautiful, real-world examples showcasing TaskML features
+ * Inspired by mermaid.live - each template tells a story
  */
 
 import type { Example, TemplateCategory } from '../types';
 
-export const CATEGORY_INFO: Record<TemplateCategory, { label: string; description: string; icon: string }> = {
+export const CATEGORY_INFO: Record<
+  TemplateCategory,
+  { label: string; description: string; icon: string; color: string; gradient: string }
+> = {
   'getting-started': {
     label: 'Getting Started',
     description: 'Learn TaskML basics',
     icon: '📚',
+    color: '#22C55E', // Green
+    gradient: 'from-green-500 to-emerald-600',
   },
   'project-management': {
     label: 'Project Management',
     description: 'Sprints, roadmaps, and team planning',
     icon: '📋',
+    color: '#F97316', // Orange (Signal)
+    gradient: 'from-orange-500 to-amber-600',
   },
   'software-dev': {
     label: 'Software Development',
     description: 'Feature development and code reviews',
     icon: '💻',
+    color: '#3B82F6', // Blue
+    gradient: 'from-blue-500 to-indigo-600',
   },
   'ai-agents': {
     label: 'AI Agents',
     description: 'Agentic workflows and handoffs',
     icon: '🤖',
+    color: '#A855F7', // Purple
+    gradient: 'from-purple-500 to-violet-600',
   },
   'devops': {
     label: 'DevOps & Infrastructure',
     description: 'Deployments and CI/CD pipelines',
     icon: '🚀',
+    color: '#06B6D4', // Cyan
+    gradient: 'from-cyan-500 to-teal-600',
   },
   'personal': {
     label: 'Personal',
     description: 'Daily planning and personal tasks',
     icon: '✨',
+    color: '#EC4899', // Pink
+    gradient: 'from-pink-500 to-rose-600',
   },
 };
 
 export const EXAMPLES: Example[] = [
-  // ============================================================
-  // GETTING STARTED
-  // ============================================================
+  // ═══════════════════════════════════════════════════════════════
+  // GETTING STARTED - Welcoming, clear, progressive
+  // ═══════════════════════════════════════════════════════════════
   {
     id: 'hello-taskml',
     title: 'Hello TaskML',
-    description: 'The simplest example - your first TaskML document',
+    description: 'Your first TaskML document in 30 seconds',
     category: 'getting-started',
     recommendedView: 'list',
     featured: true,
     tags: ['beginner', 'simple'],
-    content: `@project My First Project
+    content: `@project Weekend Trip to Portland
+@sprint This Weekend
 
-[ ] Learn TaskML syntax
-[ ] Create my first document
-[x] Install TaskML
+[x] Book flights
+[x] Reserve hotel
+[~] Pack bags
+  [x] Clothes for 3 days
+  [~] Toiletries
+  [ ] Camera & chargers
+[ ] Print boarding passes
+[ ] Arrange pet sitter
+
+- Remember: Coffee shops to visit!
+- Powell's Books, Blue Star Donuts
 `,
   },
   {
     id: 'task-statuses',
     title: 'Task Statuses',
-    description: 'All the different task status indicators',
+    description: 'All status types and how to use them',
     category: 'getting-started',
     recommendedView: 'kanban',
     tags: ['beginner', 'statuses'],
-    content: `@project Understanding Task Statuses
-@description Learn all the ways to mark task progress
+    content: `@project Understanding Progress
+@philosophy "Progress, not perfection"
 
-// Pending - not started yet
-[ ] This task is pending
+== The Journey ==
 
-// In Progress - actively working
-[~] This task is in progress
-◐ Alternative in-progress syntax
+○ Not yet begun
+  - Full of possibility
+  - Waiting for the right moment
 
-// Completed - finished!
-[x] This task is done
-● Also means completed
+◐ In motion
+  - Energy flowing
+  - Momentum building
 
-// Blocked - waiting on something
-[!] This task is blocked
-⊘ Alternative blocked syntax
+◎ Under review
+  - Reflection time
+  - Almost there
 
-// In Review - awaiting approval
-◎ This task is in review
+● Complete
+  - Achievement unlocked
+  - Ready to celebrate
+
+== The Obstacles ==
+
+⊘ Blocked
+  - Temporary pause
+  - External dependency
+
+⊖ Cancelled
+  - Pivot point
+  - Learn and move on
 `,
   },
   {
     id: 'metadata-tokens',
-    title: 'Metadata & Tokens',
-    description: 'Priority, assignees, time estimates, and tags',
+    title: 'Metadata & Syntax',
+    description: 'Priorities, time estimates, assignments, tags',
     category: 'getting-started',
     recommendedView: 'table',
     tags: ['beginner', 'metadata'],
-    content: `@project Task Metadata Guide
-@sprint Learning Phase
+    content: `@project Mastering TaskML Syntax
+@sprint Learn by Example
 
-// Priority: !0 (critical) to !3 (low)
-[ ] Critical security fix !0
-[ ] Important feature !1
-[ ] Nice to have !2
-[ ] Backlog item !3
+== Priority - The Heartbeat ==
 
-// Assignees with @
-[ ] Backend work @alice
-[ ] Frontend work @bob
-[ ] Design review @carol @dave
+[ ] !0 The building is on fire
+[ ] !1 Important, but tomorrow works
+[ ] !2 Would be nice to finish
+[ ] !3 Someday, maybe
 
-// Time estimates with ~
-[ ] Quick fix ~30m
-[ ] Medium task ~2h
-[ ] Large feature ~2d
+== Time - The Currency ==
 
-// Tags with #
-[ ] Bug fix #bug #urgent
-[ ] New feature #feature #v2
-[ ] Technical debt #refactor #backend
+[ ] ~15m Quick win
+[ ] ~2h Deep focus block
+[ ] ~1d A day's journey
+[ ] ~1w Marathon project
+
+== People - The Team ==
+
+[ ] @alice Frontend wizard
+[ ] @bob Backend architect
+[ ] @carol Design visionary
+[ ] @alice @bob Pair programming
+
+== Tags - The Categories ==
+
+[ ] #bug Something's broken
+[ ] #feature Something new
+[ ] #refactor Something cleaner
+[ ] #docs Something explained
 `,
   },
   {
     id: 'subtasks-hierarchy',
     title: 'Subtasks & Hierarchy',
-    description: 'Organize tasks with parent-child relationships',
+    description: 'Nested tasks and project structure',
     category: 'getting-started',
     recommendedView: 'tree',
     tags: ['beginner', 'hierarchy'],
-    content: `@project Building a House
+    content: `@project The Novel
+@author Ernest
 
-◐ Foundation !0
-  [x] Survey the land
-  [x] Get permits
-  [~] Pour concrete
-  [ ] Cure for 7 days
+== Part One: The Beginning ==
 
-[ ] Framing !1
-  [ ] First floor walls
-    [ ] Load-bearing walls
-    [ ] Interior walls
-  [ ] Second floor
-    [ ] Floor joists
-    [ ] Subfloor
-  [ ] Roof structure
-    [ ] Trusses
-    [ ] Sheathing
+◐ Chapter 1: Dawn !0
+  [x] Opening scene - the cafe
+    [x] Describe the morning light
+    [x] Introduce the protagonist
+    [x] The mysterious letter
+  [~] Rising tension
+    [x] The decision to leave
+    [ ] Saying goodbye
+  [ ] Chapter climax
+    [ ] The train station
+    [ ] Point of no return
 
-[ ] Electrical !2
-  [ ] Main panel
-  [ ] Rough-in wiring
-  [ ] Fixtures
+[ ] Chapter 2: The Journey !1
+  [ ] New landscapes
+  [ ] Fellow travelers
+  [ ] Seeds of doubt
+
+[ ] Chapter 3: Arrival !1
+  [ ] First impressions
+  [ ] The hotel
+  [ ] An unexpected encounter
+
+== Part Two: The Middle ==
+
+[ ] Chapter 4: Complications !0
+[ ] Chapter 5: The Truth !0
+[ ] Chapter 6: Consequences !1
 `,
   },
 
-  // ============================================================
-  // PROJECT MANAGEMENT
-  // ============================================================
+  // ═══════════════════════════════════════════════════════════════
+  // PROJECT MANAGEMENT - Professional, comprehensive
+  // ═══════════════════════════════════════════════════════════════
   {
     id: 'sprint-planning',
     title: 'Sprint Planning',
-    description: 'A complete two-week sprint with team assignments',
+    description: 'Agile sprint with tasks, assignments, and blockers',
     category: 'project-management',
     recommendedView: 'kanban',
     featured: true,
     tags: ['agile', 'sprint', 'team'],
-    content: `@project E-Commerce Platform
-@sprint Sprint 14 - User Experience
-@team alice, bob, carol, dave
-@velocity 42
+    content: `@project Spotify Premium
+@sprint Sprint 47 - Personalization
+@team emma, liam, sofia, noah
+@velocity 34
+@dates Jan 15 - Jan 26, 2024
 
-// === HIGH PRIORITY ===
+== 🔥 Critical Path ==
 
-◐ Checkout flow redesign !0 @alice ~16h
-  [x] Wireframes approved
-  [x] Component library setup
-  [~] Payment form UI
-  [ ] Order summary panel
-  [ ] Mobile responsive
-  ○ Pass accessibility audit
-  ○ < 3 second load time
+◐ AI DJ Improvements !0 @emma ~13h ^ai-dj
+  [x] Analyze skip patterns
+  [x] Train new transition model
+  [~] A/B test with 1% of users
+  [ ] Gradual rollout to 100%
+  ● Model accuracy: 94.2% → 96.8%
+  ○ Skip rate < 15%
+  ○ Session length +5%
 
-◐ Shopping cart persistence !0 @bob ~8h
-  [x] LocalStorage implementation
-  [~] Sync with backend
-  [ ] Handle conflicts
-  ○ Cart survives refresh
-  ○ Merge anonymous cart on login
+◐ Podcast Recommendations !0 @liam ~8h ^podcasts
+  depends: ai-dj
+  [x] Episode embedding pipeline
+  [~] Similar shows algorithm
+  [ ] "Because you listened to..."
+  ○ Click-through > 12%
 
-// === MEDIUM PRIORITY ===
+== 📱 Mobile Experience ==
 
-[ ] Product search improvements !1 @carol ~12h
-  [ ] Autocomplete suggestions
-  [ ] Search filters
-  [ ] Recent searches
-  [ ] "No results" improvements
+[ ] Offline Mode Redesign !1 @sofia ~10h
+  [ ] New download manager UI
+  [ ] Smart storage suggestions
+  [ ] Quality auto-switching
+  - Figma: bit.ly/spotify-offline-v2
 
-[ ] User reviews system !1 @dave ~10h
-  [ ] Star rating component
-  [ ] Review form
-  [ ] Review moderation queue
-  [ ] Helpful votes
+[ ] Car Mode !1 @noah ~8h
+  [ ] Large touch targets
+  [ ] Voice command integration
+  [ ] Simplified now-playing
+  ○ Usable at arm's length
 
-// === BLOCKED ===
+== ⏸️ Blocked ==
 
-⊘ Payment gateway integration !0 @bob
-  ○ Waiting for Stripe API keys
-  ○ Need PCI compliance sign-off
-  - Contact: finance@company.com
+⊘ Social Listening Party !0 @emma
+  - Waiting: Legal review of licensing
+  - ETA: Jan 22
+  - Contact: legal@spotify.internal
 
-// === COMPLETED ===
+== ✅ Done ==
 
-[x] Sprint planning meeting !0 @alice
-[x] Design system updates !1 @carol
-[x] Performance monitoring setup !2 @dave
+[x] Blend playlist algorithm !0 @liam
+[x] "Made For You" hub redesign !1 @sofia
+[x] Listening history export (GDPR) !1 @noah
 `,
   },
   {
     id: 'product-roadmap',
     title: 'Product Roadmap',
-    description: 'Quarterly planning with milestones and dependencies',
+    description: 'Quarterly milestones and feature planning',
     category: 'project-management',
     recommendedView: 'timeline',
     tags: ['roadmap', 'planning', 'milestones'],
-    content: `@project SaaS Product Roadmap 2024
-@timeline Q1-Q4 2024
+    content: `@project Linear 2024
+@vision "The future of project management"
+@team 45 engineers, 12 designers
 
 == Q1: Foundation ==
 
-[x] Core platform launch !0 ^2024-01-15 +2024-02-28
-  [x] User authentication
-  [x] Billing integration
-  [x] Admin dashboard
-  [x] API v1
+● Platform Stability !0 >2024-03-31
+  ● 99.99% uptime achieved
+  ● P95 latency < 50ms
+  ● Zero data incidents
+  - Shipped: Real-time sync engine v3
 
-[x] Beta program !1 ^2024-02-01 +2024-03-15
-  [x] Recruit 50 beta users
-  [x] Feedback collection
-  [x] Priority bug fixes
+● Enterprise Launch !0 >2024-02-28 ^enterprise
+  ● SSO with SAML 2.0
+  ● Audit logs
+  ● Custom SLAs
+  - Revenue: $2.4M ARR added
 
-== Q2: Growth ==
+== Q2: Intelligence ==
 
-◐ Team collaboration features !0 ^2024-04-01 +2024-05-31 #id:collab
-  [x] Team workspaces
-  [~] Real-time editing
-  [ ] Comments & mentions
-  [ ] Activity feed
+◐ Linear AI !0 >2024-06-30 ^ai
+  ● Auto-triage incoming issues
+  ◐ Smart sprint planning
+  ○ Predictive estimation
+  ○ "Ask Linear" natural language
+  - Model: Fine-tuned Claude
 
-[ ] Mobile app MVP !1 ^2024-05-01 +2024-06-30 ->collab
+[ ] Insights Dashboard !1 >2024-05-31 ^insights
+  depends: ai
+  [ ] Cycle time analytics
+  [ ] Team velocity trends
+  [ ] Bottleneck detection
+
+== Q3: Ecosystem ==
+
+[ ] Plugin Marketplace !0 >2024-09-30 ^plugins
+  [ ] Developer SDK
+  [ ] Marketplace UI
+  [ ] Revenue sharing (70/30)
+  ○ 50 launch partners
+
+[ ] Linear for Mobile !1 >2024-08-31 ^mobile
   [ ] iOS app
   [ ] Android app
-  [ ] Push notifications
-
-== Q3: Scale ==
-
-[ ] Enterprise features !0 ^2024-07-01 +2024-09-30 #id:enterprise
-  [ ] SSO (SAML/OIDC)
-  [ ] Audit logging
-  [ ] Custom branding
-  [ ] SLA guarantees
-
-[ ] API v2 !1 ^2024-08-01 +2024-09-15
-  [ ] GraphQL support
-  [ ] Webhooks
-  [ ] Rate limiting
+  [ ] Apple Watch glances
 
 == Q4: Expansion ==
 
-[ ] Marketplace launch !0 ^2024-10-01 +2024-11-30 ->enterprise
-  [ ] Plugin system
-  [ ] Developer portal
-  [ ] Partner program
+[ ] Linear Docs !0 >2024-12-31 ^docs
+  depends: ai, plugins
+  [ ] Rich text editor
+  [ ] Issue embedding
+  [ ] AI writing assist
+  - Compete with Notion
 
-[ ] International expansion !1 ^2024-11-01 +2024-12-31
-  [ ] Multi-language support
-  [ ] Regional data centers
-  [ ] Local payment methods
+[ ] Multi-product Support !1 >2024-11-30
+  [ ] Product areas
+  [ ] Cross-product roadmaps
+  [ ] Portfolio views
 `,
   },
   {
     id: 'okrs',
     title: 'OKRs & Goals',
-    description: 'Objectives and Key Results tracking',
+    description: 'Objectives and key results tracking',
     category: 'project-management',
     recommendedView: 'summary',
     tags: ['okrs', 'goals', 'metrics'],
-    content: `@project Q1 2024 OKRs
-@team Engineering
+    content: `@project Stripe Q1 2024 OKRs
+@owner Patrick Collison
+@review-date 2024-04-01
 
-== Objective 1: Improve Platform Reliability ==
+== Objective 1: Accelerate Global Expansion ==
+@confidence 85%
 
-◐ 99.9% uptime SLA !0
-  [x] Implement health checks
-  [x] Set up alerting
-  [~] Redundant infrastructure
-  [ ] Disaster recovery testing
-  ○ Zero unplanned outages in March
+◐ KR1: Launch in 8 new countries !0
+  [x] Brazil - live
+  [x] India - live
+  [x] South Africa - live
+  [~] Indonesia - beta
+  [~] Vietnam - beta
+  [ ] Philippines
+  [ ] Thailand
+  [ ] Colombia
+  ● Progress: 5/8 (62.5%)
 
-[ ] Reduce mean time to recovery !1
-  [ ] Runbook documentation
-  [ ] Automated rollbacks
-  [ ] On-call training
-  ○ MTTR < 15 minutes
+[ ] KR2: Process $50B in emerging markets !0
+  ● Current: $34.2B
+  ● Target: $50B
+  ● Progress: 68.4%
 
-[ ] Error rate below 0.1% !1
-  [x] Error tracking setup
-  [ ] Fix top 10 errors
-  [ ] Improve error messages
-  ○ 99.9% success rate
+◐ KR3: < 2 day merchant onboarding globally !1
+  ● Current avg: 2.4 days
+  ● Target: < 2 days
+  ● Blocker: KYC in India (5.2 days)
 
-== Objective 2: Accelerate Development Velocity ==
+== Objective 2: Win Enterprise ==
+@confidence 70%
 
-◐ Reduce deploy time to < 10 minutes !0
-  [x] Parallel test execution
-  [~] Docker layer caching
-  [ ] Incremental builds
-  ○ P95 deploy time < 10m
+◐ KR1: Sign 50 Fortune 500 companies !0
+  ● Signed: 38
+  ● Pipeline: 23
+  ● Progress: 76%
 
-[ ] Increase test coverage to 80% !1
-  [ ] Unit test gaps
-  [ ] Integration test suite
-  [ ] E2E critical paths
-  ○ Coverage report in CI
+[ ] KR2: Launch Stripe Enterprise suite !0
+  [x] Dedicated support tier
+  [~] Custom contracts
+  [ ] On-premise deployment option
+  [ ] SOC 2 Type II
 
-[x] Developer experience improvements !2
-  [x] Local dev environment
-  [x] Hot reload
-  [x] Debug tooling
-  ○ < 5 min to first build
+[ ] KR3: NPS > 70 for enterprise accounts !1
+  ● Current NPS: 64
+  ● Target: 70+
+
+== Objective 3: Build AI-Native Payments ==
+@confidence 60%
+
+◐ KR1: Launch Stripe AI !0
+  [x] Fraud detection v3
+  [~] Revenue Recovery AI
+  [ ] Pricing optimization
+  ● Impact: $890M fraud prevented
+
+[ ] KR2: 30% of support handled by AI !1
+  ● Current: 18%
+  ● Target: 30%
 `,
   },
 
-  // ============================================================
-  // SOFTWARE DEVELOPMENT
-  // ============================================================
+  // ═══════════════════════════════════════════════════════════════
+  // SOFTWARE DEVELOPMENT - Technical, realistic
+  // ═══════════════════════════════════════════════════════════════
   {
     id: 'feature-development',
     title: 'Feature Development',
-    description: 'End-to-end feature implementation with acceptance criteria',
+    description: 'End-to-end feature implementation workflow',
     category: 'software-dev',
     recommendedView: 'list',
     featured: true,
     tags: ['feature', 'development', 'criteria'],
-    content: `@project User Authentication System
-@sprint Sprint 8
-@feature FEAT-1234
+    content: `@project GitHub Copilot
+@feature GHCP-2847: Multi-file Context
+@rfc github.com/copilot/rfcs/2847
+@team @alex @priya @marcus
 
-◐ User Registration Flow !0 @backend ~16h
-  [x] API endpoint design
-  [x] Database schema
-  [~] Email verification
+== Phase 1: Design ==
+
+[x] RFC Approved !0 @alex
+  [x] Problem statement
+  [x] Proposed solution
+  [x] Security review
+  [x] Privacy review
+  ● Approved by: Staff+ review
+
+[x] Technical Design !0 @alex ~3d
+  [x] Architecture diagram
+  [x] API contracts
+  [x] Data flow
+  [x] Edge cases
+  - Doc: notion.so/copilot/mfc-design
+
+== Phase 2: Implementation ==
+
+◐ Backend Service !0 @priya ~5d ^backend
+  [x] Context aggregation service
+  [x] Token budget allocation
+  [~] Cross-file symbol resolution
+  [ ] Caching layer
   [ ] Rate limiting
-  [ ] Audit logging
 
-  // Acceptance Criteria
-  ○ Email validation (RFC 5322)
-  ○ Password: 8+ chars, mixed case, number
-  ○ Verification email within 30 seconds
-  ○ Account locked after 5 failed attempts
-  ○ GDPR consent checkbox required
+◐ Model Integration !0 @alex ~3d ^model
+  depends: backend
+  [x] Prompt engineering
+  [~] Context window optimization
+  [ ] Streaming responses
+  ● Using: GPT-4 Turbo 128k
 
-  - Tech: Node.js, PostgreSQL, SendGrid
+[ ] VS Code Extension !1 @marcus ~4d ^vscode
+  depends: backend
+  [ ] File watcher
+  [ ] Workspace indexing
+  [ ] Context indicator UI
+  [ ] Settings panel
 
-◐ Login & Session Management !0 @backend ~12h
-  [x] JWT implementation
-  [~] Refresh token rotation
-  [ ] Remember me functionality
-  [ ] Concurrent session limits
+== Phase 3: Quality ==
 
-  ○ Access token expires in 15 minutes
-  ○ Refresh token expires in 7 days
-  ○ Max 5 concurrent sessions
-  ○ Secure cookie settings (httpOnly, sameSite)
+[ ] Testing !0 ~2d
+  [ ] Unit tests (>90% coverage)
+  [ ] Integration tests
+  [ ] Load testing (10k rps)
+  [ ] Security penetration test
 
-[ ] Two-Factor Authentication !1 @security ~20h
-  [ ] TOTP implementation
-  [ ] QR code generation
-  [ ] Backup codes (10 codes)
-  [ ] SMS fallback (optional)
+[ ] Acceptance Criteria !0
+  ○ Works with 50+ file repos
+  ○ Latency < 500ms P95
+  ○ Context relevance score > 0.85
+  ○ No PII in telemetry
+  ○ Graceful degradation
 
-  ○ Compatible with Google Authenticator
-  ○ Backup codes are one-time use
-  ○ Recovery flow documented
+== Phase 4: Release ==
 
-[ ] Frontend Integration !1 @frontend ~8h
-  [ ] Login form
-  [ ] Registration form
-  [ ] Password reset flow
-  [ ] 2FA setup wizard
-
-  ○ Form validation before submit
-  ○ Loading states
-  ○ Error messages
-  ○ WCAG AA compliant
+[ ] Staged Rollout !0 @alex
+  [ ] 1% internal dogfood
+  [ ] 5% Copilot Labs
+  [ ] 25% Business tier
+  [ ] 100% GA
 `,
   },
   {
     id: 'code-review',
-    title: 'Code Review Checklist',
-    description: 'Comprehensive code review process',
+    title: 'Pull Request Review',
+    description: 'Thorough code review checklist',
     category: 'software-dev',
     recommendedView: 'list',
     tags: ['review', 'checklist', 'quality'],
-    content: `@project Pull Request Review
-@pr PR-456: Add payment processing
+    content: `@project vercel/next.js
+@pr #58392: Add React Server Actions
+@author @tim
+@reviewers @guillermo @shu
+
+== Overview ==
+
+- Feature: Server Actions (RFC-0001)
+- Files changed: 47
+- Additions: +2,847 / Deletions: -234
+- Linked: vercel/next.js#58100
 
 == Code Quality ==
 
-◐ Code Review @senior ~2h
-  [x] Logic correctness
-  [x] Edge case handling
-  [~] Error handling
-  [ ] Code duplication check
-  [ ] Naming conventions
-  ○ No console.log statements
-  ○ No hardcoded values
-  ○ Follows style guide
+◐ Architecture Review @guillermo
+  [x] Follows existing patterns
+  [x] No unnecessary abstractions
+  [~] Error boundaries complete
+  [ ] TypeScript strict compliance
+  ○ No 'any' types introduced
+  ○ Proper error types
+
+[ ] Implementation @shu
+  [ ] Logic correctness
+  [ ] Edge cases handled
+  [ ] Memory leaks checked
+  [ ] Race conditions reviewed
+  ○ No blocking operations
+  ○ Proper cleanup on unmount
 
 == Testing ==
 
-[ ] Test Coverage @qa
-  [ ] Unit tests present
-  [ ] Integration tests
-  [ ] Edge cases covered
-  [ ] Error scenarios tested
-  ○ Coverage >= 80%
-  ○ All tests passing
+◐ Test Coverage @tim
+  [x] Unit tests: 94% coverage
+  [x] Integration tests added
+  [~] E2E tests pending
+  [ ] Error scenario tests
+  ○ All tests passing in CI
+  ○ No flaky tests introduced
 
 == Security ==
 
-[ ] Security Review @security
+[ ] Security Review @security-team
   [ ] Input validation
-  [ ] SQL injection prevention
+  [ ] CSRF protection
   [ ] XSS prevention
-  [ ] Authentication checks
-  [ ] Authorization checks
-  ○ No sensitive data in logs
-  ○ Secrets in environment variables
+  [ ] Auth boundary checks
+  ○ No secrets in code
+  ○ Approved by security team
 
 == Documentation ==
 
-[ ] Documentation @author
-  [ ] README updated
-  [ ] API docs updated
-  [ ] Inline comments for complex logic
-  [ ] CHANGELOG entry
-  ○ Breaking changes documented
+[x] Docs Updated @tim
+  [x] README changes
+  [x] API documentation
+  [x] Migration guide
+  [x] Examples added
+  ○ No typos
 
-== Performance ==
+== Final Checklist ==
 
-[ ] Performance Check @senior
-  [ ] No N+1 queries
-  [ ] Proper indexing
-  [ ] Caching strategy
-  [ ] Memory usage
-  ○ Response time < 200ms
+[ ] Ready to Merge
+  [ ] All checks passing
+  [ ] 2 approvals obtained
+  [ ] No unresolved threads
+  [ ] Squash commit message ready
 `,
   },
   {
     id: 'bug-tracking',
     title: 'Bug Tracking',
-    description: 'Bug investigation and resolution workflow',
+    description: 'Debugging workflow and resolution tracking',
     category: 'software-dev',
     recommendedView: 'kanban',
     tags: ['bugs', 'tracking', 'debugging'],
-    content: `@project Bug Backlog
-@sprint Bugfix Sprint
+    content: `@project Slack
+@bug SLACK-92847
+@severity P0 - Revenue Impacting
+@oncall @jennifer
 
-// === CRITICAL ===
+== 🚨 The Problem ==
 
-◐ Payment fails on Safari !0 @alice #bug #payments
-  [x] Reproduce issue
-  [x] Identify root cause
-  [~] Implement fix
-  [ ] Test on all browsers
-  [ ] Deploy hotfix
-  - Cause: WebCrypto API difference
-  - Affects: ~5% of transactions
+⊘ Messages not sending for Enterprise Grid !0
+  - Started: 2024-01-15 14:32 UTC
+  - Affected: ~50,000 users
+  - Revenue at risk: $2.3M MRR
+  - Status page: incident.io/slack/92847
 
-⊘ Data loss on session timeout !0 @bob #bug #data
-  ○ Waiting for logs from customer
-  ○ Cannot reproduce locally
-  - Customer: enterprise-corp
-  - Ticket: SUP-789
+== 🔍 Investigation ==
 
-// === HIGH ===
+[x] Initial Triage @jennifer ~15m
+  [x] Confirm reproduction
+  [x] Check error rates
+  [x] Recent deployments?
+  ● Deploy 3.47.2 at 14:15 UTC
 
-[ ] Search returns wrong results !1 @carol #bug #search
-  [ ] Add logging
-  [ ] Analyze query patterns
-  [ ] Fix ranking algorithm
-  - Elasticsearch version mismatch?
+[x] Log Analysis @jennifer ~30m
+  [x] Kibana query setup
+  [x] Error pattern identified
+  [x] Trace specific failure
+  ● Error: "Connection pool exhausted"
+  ● Service: message-router-prod
 
-[ ] Mobile layout broken on tablets !1 @dave #bug #ui
-  [ ] Test all breakpoints
-  [ ] Fix CSS grid issues
-  [ ] Test on real devices
-  ○ Works on iPad Pro
-  ○ Works on iPad Mini
-  ○ Works on Android tablets
+[x] Root Cause Found @jennifer
+  ● Cause: Memory leak in 3.47.2
+  ● Introduced: PR #34521
+  ● Why: Unclosed gRPC streams
+  ● Why missed: Load test env differs
 
-// === MEDIUM ===
+== 🛠️ Resolution ==
 
-[ ] Slow dashboard loading !2 @alice #bug #performance
-  [ ] Profile API calls
-  [ ] Optimize queries
-  [ ] Add pagination
-  ○ Load time < 2 seconds
+[x] Immediate Mitigation !0 @jennifer
+  [x] Scale up pods (3 → 12)
+  [x] Increase pool size
+  ● Partial relief achieved
 
-[ ] Email notifications delayed !2 @bob #bug #email
-  [ ] Check queue backlog
-  [ ] Review worker logs
-  [ ] Scale if needed
+[x] Hotfix Deployed !0 @jennifer @marcus
+  [x] Revert PR #34521
+  [x] Cherry-pick to 3.47.3
+  [x] Deploy to prod
+  ● Rolled out at 15:47 UTC
 
-// === RESOLVED ===
+[x] Verification !0
+  [x] Error rate → 0%
+  [x] Messages flowing
+  [x] Customer confirmation
+  ● Incident resolved: 15:52 UTC
 
-[x] Login button unresponsive !0 @carol
-[x] Wrong timezone in reports !1 @dave
-[x] Missing validation error !2 @alice
+== 📝 Post-Mortem ==
+
+[ ] Blameless Retrospective !1 @jennifer
+  [ ] Timeline documented
+  [ ] 5 Whys analysis
+  [ ] Action items
+  [ ] Process improvements
+  ○ Published within 48h
 `,
   },
 
-  // ============================================================
-  // AI AGENTS
-  // ============================================================
+  // ═══════════════════════════════════════════════════════════════
+  // AI AGENTS - Cutting edge, thoughtful
+  // ═══════════════════════════════════════════════════════════════
   {
-    id: 'ai-agent-workflow',
-    title: 'AI Agent Workflow',
-    description: 'Multi-agent task execution with handoffs',
-    category: 'ai-agents',
+    id: 'task-dependencies',
+    title: 'Task Dependencies',
+    description: 'Visualize how tasks connect and block each other',
+    category: 'getting-started',
     recommendedView: 'graph',
     featured: true,
-    tags: ['agents', 'handoff', 'context'],
-    content: `@project Customer Support Automation
-@agent orchestrator
-@model claude-3-opus
+    tags: ['dependencies', 'workflow', 'graph'],
+    content: `@project Website Redesign
+@sprint Launch Week
 
-== Research Phase ==
+== Design Phase ==
 
-[x] Analyze customer inquiry !0 @researcher #id:analyze
-  [x] Extract key entities
-  [x] Classify intent
-  [x] Sentiment analysis
-  context:
-    inquiry: "My order #12345 hasn't arrived"
-    intent: order_status
-    sentiment: frustrated
-    entities: [order_id: 12345]
+[x] User research ^research
+[x] Create wireframes ^wireframes
+  depends: research
+[x] Design mockups ^design
+  depends: wireframes
 
-◐ Gather relevant information !0 @researcher #id:gather ->analyze
-  [x] Query order database
-  [~] Check shipping status
-  [ ] Review customer history
-  context:
-    order_status: shipped
-    tracking: 1Z999AA10123456784
-    ship_date: 2024-01-10
-    expected: 2024-01-15
+== Development ==
 
-== Resolution Phase ==
+◐ Build frontend ^frontend @alice
+  depends: design
+  [x] Header component
+  [~] Hero section
+  [ ] Footer component
 
-◐ Formulate response !0 @writer #id:respond ->gather
-  [~] Draft empathetic response
-  [ ] Include tracking info
-  [ ] Offer compensation if late
-  handoff:
-    from: researcher
-    to: writer
-    reason: Information gathered, ready for response
+◐ Build backend ^backend @bob
+  [x] API endpoints
+  [~] Database schema
+  [ ] Authentication
 
-[ ] Quality check !1 @reviewer ->respond
-  [ ] Tone appropriate
-  [ ] Information accurate
-  [ ] Follows brand guidelines
-  [ ] Escalation needed?
+[ ] Integration ^integrate
+  depends: frontend, backend
+  [ ] Connect API to UI
+  [ ] Error handling
+  [ ] Loading states
 
-[ ] Send response !0 @sender ->respond
-  [ ] Via email
-  [ ] Update ticket status
-  [ ] Log interaction
+== Testing & Launch ==
+
+[ ] QA testing ^qa @carol
+  depends: integrate
+  [ ] Cross-browser testing
+  [ ] Mobile responsiveness
+  [ ] Performance audit
+
+[ ] Deploy to staging ^staging
+  depends: qa
+
+[ ] Final review ^review
+  depends: staging
+
+[ ] Production launch
+  depends: review
 `,
   },
   {
     id: 'research-agent',
-    title: 'Research Agent',
-    description: 'Deep research workflow with verification',
+    title: 'Search Pipeline',
+    description: 'Research workflow with source verification',
     category: 'ai-agents',
     recommendedView: 'tree',
     tags: ['research', 'verification', 'sources'],
-    content: `@project Market Research: AI Code Assistants
-@agent research-bot
+    content: `@project AI Search Pipeline
+@query "Latest breakthroughs in fusion energy 2024"
 @model claude-3-opus
 
-◐ Initial Research !0 @researcher
-  [x] Define research scope
-  [x] Identify key players
-  [~] Gather public information
-  [ ] Compile findings
+== Query Understanding ==
 
-  context:
-    scope: "AI-powered code assistants market 2024"
-    players: [GitHub Copilot, Cursor, Cody, Tabnine]
-    sources_needed: 5+
+[x] Parse Query !0
+  [x] Extract topic: fusion energy
+  [x] Time constraint: 2024
+  [x] Intent: news/breakthroughs
+  [x] Generate sub-queries
 
-== GitHub Copilot Analysis ==
+  sub_queries:
+    - "NIF fusion ignition 2024"
+    - "ITER construction progress"
+    - "Commonwealth Fusion Systems"
+    - "Helion Energy milestones"
 
-[x] Product analysis @researcher
-  [x] Features inventory
-  [x] Pricing tiers
-  [x] Integration options
-  ● Verified via official docs
+== Source Gathering ==
 
-  context:
-    pricing: "$10/mo individual, $19/mo business"
-    models: "GPT-4, Codex"
-    integrations: [VS Code, JetBrains, Neovim]
+◐ Web Search !0
+  [x] Google News API
+  [x] Bing Search
+  [x] Academic sources
 
-== Cursor Analysis ==
+  sources_found: 47
+  quality_filtered: 12
 
-◐ Product analysis @researcher
-  [x] Features inventory
-  [~] Pricing research
-  [ ] User reviews
-  ○ Verify with 3+ sources
+◐ Source Verification !0
+  [x] Check domain authority
+  [~] Cross-reference claims
+  [ ] Identify primary sources
 
-== Comparative Analysis ==
+  verified_sources:
+    - nature.com (DA: 95)
+    - science.org (DA: 94)
+    - iter.org (DA: 82)
 
-[ ] Feature comparison !1 @analyst
-  [ ] Create comparison matrix
-  [ ] Identify unique features
-  [ ] Gap analysis
+== Content Analysis ==
 
-[ ] Market positioning !1 @analyst
-  [ ] Target audience
-  [ ] Pricing strategy
-  [ ] Competitive advantages
+[ ] Extract Key Information !1
+  [ ] NIF ignition results
+    - December 2023 record
+    - 3.88 MJ output
+    - Net energy gain confirmed
+  [ ] ITER timeline updates
+    - First plasma: 2025
+    - Full fusion: 2035
+  [ ] Private sector progress
+    - CFS: SPARC on track
+    - Helion: 2028 target
 
-== Report Generation ==
+== Response Generation ==
 
-[ ] Draft report !0 @writer
-  [ ] Executive summary
-  [ ] Detailed findings
-  [ ] Recommendations
-  ○ All claims have citations
-  ○ Reviewed by human
+[ ] Synthesize Answer !0
+  [ ] Lead with breakthrough
+  [ ] Timeline visualization
+  [ ] Expert quotes
+  [ ] Inline citations
+
+  ○ Every claim has [source]
+  ○ Recency highlighted
+  ○ Confidence indicated
 `,
   },
   {
     id: 'tool-use-agent',
-    title: 'Tool-Using Agent',
-    description: 'Agent with tool calls and reasoning',
+    title: 'Coding Agent',
+    description: 'Autonomous software engineering workflow',
     category: 'ai-agents',
     recommendedView: 'list',
     tags: ['tools', 'reasoning', 'execution'],
-    content: `@project File Organization Agent
-@agent file-organizer
-@tools read_file, write_file, move_file, list_directory
+    content: `@project Autonomous Dev Agent
+@task "Add dark mode to the dashboard"
+@repo github.com/acme/dashboard
+@tools bash, read_file, edit_file, browser
 
-◐ Analyze current structure !0
-  [x] List all files in directory
-  [x] Categorize by type
-  [~] Identify duplicates
-  [ ] Calculate sizes
+== 🧠 Planning ==
 
-  context:
-    total_files: 1247
-    categories:
-      documents: 342
-      images: 567
-      code: 238
-      other: 100
-    duplicates_found: 23
+[x] Understand Codebase !0 ~2m
+  [x] Read package.json
+  [x] Identify framework: Next.js 14
+  [x] Find styling: Tailwind CSS
+  [x] Check existing theme system
 
-◐ Plan reorganization !0 #id:plan
-  [x] Define folder structure
-  [x] Create naming conventions
-  [ ] Handle conflicts
+  analysis: |
+    - No theme system exists
+    - Uses CSS variables for colors
+    - 47 components to update
+    - Recommend: next-themes + Tailwind
 
-  reasoning: |
-    Based on file analysis:
-    1. Create /documents, /images, /code, /archive
-    2. Move files by extension
-    3. Rename duplicates with suffix
-    4. Archive files older than 1 year
+[x] Create Implementation Plan !0
+  [x] Step 1: Install dependencies
+  [x] Step 2: Create theme provider
+  [x] Step 3: Update tailwind.config
+  [x] Step 4: Add color variables
+  [x] Step 5: Update components
+  [x] Step 6: Add toggle UI
+  [x] Step 7: Test & verify
 
-== Execution ==
+== 🔧 Execution ==
 
-[ ] Create folder structure !1 ->plan
-  [ ] /documents
-    [ ] /reports
-    [ ] /notes
-  [ ] /images
-    [ ] /screenshots
-    [ ] /photos
-  [ ] /code
-    [ ] /projects
-    [ ] /scripts
-  [ ] /archive
+[x] Setup Theme System !0
+  [x] npm install next-themes
+  [x] Create providers/theme.tsx
+  [x] Wrap app in ThemeProvider
+  ● Tool: bash, edit_file
 
-[ ] Move files !1
-  [ ] Documents: 342 files
-  [ ] Images: 567 files
-  [ ] Code: 238 files
-  ○ No data loss
-  ○ Permissions preserved
+◐ Update Styling !0
+  [x] Modify tailwind.config.js
+  [x] Add dark: variants
+  [~] Update CSS variables
+  [ ] Component sweep (23/47)
+  ● Tool: edit_file (batch mode)
 
-[ ] Handle duplicates !2
-  [ ] Compare checksums
-  [ ] Keep newest version
-  [ ] Move duplicates to /duplicates
+[ ] Add Theme Toggle !1
+  [ ] Create ThemeToggle component
+  [ ] Add to header
+  [ ] Animate transition
+  [ ] Persist preference
+  ● Tool: edit_file, browser (preview)
 
-[ ] Generate report !2
-  [ ] Files moved: X
-  [ ] Space saved: Y GB
-  [ ] Errors: Z
+== ✅ Verification ==
+
+[ ] Test Implementation !0
+  [ ] Light mode renders
+  [ ] Dark mode renders
+  [ ] Toggle works
+  [ ] Preference persists
+  [ ] No flash on load
+  ● Tool: browser (Playwright)
+
+[ ] Create Pull Request !0
+  [ ] Stage changes
+  [ ] Write PR description
+  [ ] Request review
+  ● Tool: bash (gh cli)
 `,
   },
 
-  // ============================================================
-  // DEVOPS
-  // ============================================================
+  // ═══════════════════════════════════════════════════════════════
+  // DEVOPS - Production-ready, battle-tested
+  // ═══════════════════════════════════════════════════════════════
   {
     id: 'deployment-pipeline',
-    title: 'Deployment Pipeline',
-    description: 'CI/CD pipeline with staging and production',
+    title: 'CI/CD Pipeline',
+    description: 'Build, test, and deploy workflow',
     category: 'devops',
     recommendedView: 'timeline',
     featured: true,
     tags: ['cicd', 'deployment', 'pipeline'],
-    content: `@project Release v2.5.0
-@pipeline main
-@trigger push to main
+    content: `@project vercel/next.js
+@pipeline Production Release
+@trigger merge to main
+@sha a]3f7b2c
 
-== Build Stage ==
+== ⚡ Build Stage ==
 
-[x] Code checkout !0 ~30s
-[x] Install dependencies !0 ~2m
-[x] Run linter !1 ~1m
-  ● 0 errors, 3 warnings
-[x] Run type check !1 ~1m
-  ● TypeScript strict mode
+[x] Checkout & Install !0 ~45s
+  ● Turborepo cache: HIT
+  ● Dependencies: 2,847
+  ● Node: 20.10.0
 
-== Test Stage ==
+[x] Type Check !0 ~23s
+  ● TypeScript: strict
+  ● Errors: 0
+  ● Files: 1,247
 
-[x] Unit tests !0 ~3m #id:unit
-  ● 847 tests passed
-  ● Coverage: 84%
-[x] Integration tests !0 ~5m #id:integration ->unit
-  ● 123 tests passed
-  ● All APIs verified
-[x] E2E tests !1 ~10m ->integration
-  ● 45 scenarios passed
-  ● Chrome, Firefox, Safari
+[x] Lint & Format !0 ~18s
+  ● ESLint: passed
+  ● Prettier: passed
+  ● Warnings: 3 (non-blocking)
 
-== Build Artifacts ==
+[x] Build Application !0 ~2m12s ^build
+  ● Framework: Next.js 14.1
+  ● Output: Serverless
+  ● Bundle: 847KB (gzipped)
+  ● Routes: 47 static, 12 dynamic
 
-[x] Build application !0 ~2m #id:build
-  ● Bundle size: 245KB (gzipped)
-  ● Tree shaking applied
-[x] Build Docker image !0 ~3m ->build
-  ● Image: app:v2.5.0
-  ● Size: 127MB
-[x] Push to registry !0 ~1m
-  ● registry.company.com/app:v2.5.0
+== 🧪 Test Stage ==
 
-== Deploy Staging ==
+[x] Unit Tests !0 ~1m34s ^unit
+  ● Vitest: 2,847 passed
+  ● Coverage: 89.4%
+  ● Snapshots: 124 matched
 
-[x] Deploy to staging !0 ~2m #id:staging
-  ● Kubernetes rollout
-  ● 3/3 pods ready
-[x] Smoke tests !0 ~2m ->staging
-  ● Health check passed
-  ● Critical paths verified
-◎ QA approval !0 @qa-team
-  ○ Manual testing complete
-  ○ No P0/P1 bugs found
+[x] Integration Tests !0 ~3m22s ^integration
+  depends: unit
+  ● Playwright: 234 passed
+  ● Browsers: Chrome, Firefox, Safari
+  ● Flaky: 0
 
-== Deploy Production ==
+[x] E2E Tests !0 ~4m47s ^e2e
+  depends: unit
+  ● Critical paths: 47/47
+  ● Visual regression: passed
+  ● Performance budget: passed
 
-[ ] Deploy to production !0 ~5m #id:prod
-  [ ] Blue-green deployment
-  [ ] Database migrations
-  [ ] Cache invalidation
-  ○ Zero downtime
+== 🌍 Deploy Stage ==
 
-[ ] Post-deploy verification !0 ->prod
-  [ ] Health checks
-  [ ] Error rate monitoring
-  [ ] Performance metrics
-  ○ Error rate < 0.1%
-  ○ P95 latency < 200ms
+[x] Edge Network !0 ~34s ^edge
+  depends: build
+  ● Regions: 18
+  ● Cache: invalidated
+  ● DNS: propagated
 
-[ ] Rollback plan ready !1
-  - Command: kubectl rollout undo
-  - Previous: v2.4.3
+[x] Preview Deployment !0
+  ● URL: next-git-a3f7b2c.vercel.app
+  ● Status: ready
+  ● Lighthouse: 98/100
+
+◎ Production Approval !0 @release-team
+  ○ Staging verified
+  ○ No P0 bugs
+  ○ Rollback ready
+
+== 📊 Post-Deploy ==
+
+[ ] Production !0
+  [ ] Blue-green cutover
+  [ ] Health checks (5m)
+  [ ] Error monitoring
+  ○ Error rate < 0.01%
+  ○ P95 latency < 100ms
 `,
   },
   {
     id: 'infrastructure-setup',
     title: 'Infrastructure Setup',
-    description: 'Cloud infrastructure provisioning checklist',
+    description: 'Cloud infrastructure and networking',
     category: 'devops',
     recommendedView: 'tree',
     tags: ['infrastructure', 'cloud', 'setup'],
-    content: `@project AWS Infrastructure Setup
-@environment production
-@region us-east-1
+    content: `@project Acme Corp Production
+@provider AWS
+@region us-east-1, eu-west-1
+@compliance SOC2, HIPAA
 
-◐ Networking !0 @infra
-  [x] VPC configuration
-    [x] CIDR: 10.0.0.0/16
-    [x] 3 availability zones
-  [x] Subnets
-    [x] Public subnets (3)
-    [x] Private subnets (3)
-    [x] Database subnets (3)
-  [~] Security groups
-    [x] Web tier (80, 443)
-    [x] App tier (8080)
-    [ ] Database tier (5432)
-  [ ] NAT Gateways
+== 🌐 Networking ==
 
-◐ Compute !0 @infra
-  [x] EKS cluster
-    [x] Kubernetes 1.28
-    [x] Managed node groups
-    [x] Cluster autoscaler
-  [~] Node configuration
-    [x] t3.large instances
-    [ ] Spot instances for workers
-  [ ] Load balancer
-    [ ] ALB ingress controller
-    [ ] SSL certificates
+[x] VPC Architecture !0 @infra
+  [x] Primary VPC (10.0.0.0/16)
+    [x] Public subnets (3 AZs)
+    [x] Private subnets (3 AZs)
+    [x] Database subnets (3 AZs)
+  [x] VPC Peering to DR region
+  [x] Transit Gateway setup
 
-[ ] Database !1 @dba
-  [ ] RDS PostgreSQL
-    [ ] Multi-AZ deployment
-    [ ] Automated backups
-    [ ] Read replicas
-  [ ] ElastiCache Redis
-    [ ] Cluster mode
-    [ ] Encryption at rest
+[x] Security Groups !0
+  [x] ALB (443 inbound)
+  [x] App (8080 from ALB only)
+  [x] DB (5432 from App only)
+  [x] Bastion (22 from VPN)
+  ● Principle: Least privilege
+
+== ⚡ Compute ==
+
+◐ EKS Cluster !0 @platform
+  [x] Control plane (1.29)
+  [x] Managed node groups
+    [x] system: t3.large x3
+    [x] app: c6i.xlarge x6
+    [~] ml: g4dn.xlarge x2
+  [ ] Karpenter autoscaling
+  [ ] Pod security policies
+
+[ ] Load Balancing !1
+  [ ] ALB Ingress Controller
+  [ ] WAF integration
+  [ ] SSL/TLS termination
+  [ ] Geographic routing
+
+== 💾 Data ==
+
+◐ Databases !0 @dba
+  [x] RDS PostgreSQL 15
+    [x] Multi-AZ deployment
+    [x] 500GB gp3 storage
+    [x] Automated backups (35 days)
+  [~] ElastiCache Redis 7
+    [~] Cluster mode enabled
+    [ ] Encryption at rest/transit
 
 [ ] Storage !1 @infra
-  [ ] S3 buckets
-    [ ] Application assets
-    [ ] Backup storage
-    [ ] Logs archive
+  [ ] S3 buckets (encrypted)
+    [ ] assets.acme.com
+    [ ] backups.acme.internal
+    [ ] logs.acme.internal
   [ ] EFS for shared storage
 
-[ ] Monitoring !2 @sre
-  [ ] CloudWatch dashboards
-  [ ] Alerts configuration
-  [ ] Log aggregation
-  [ ] APM integration
+== 🔐 Security ==
 
-[ ] Security !0 @security
-  [ ] IAM roles & policies
+[ ] Identity & Access !0 @security
+  [ ] IAM roles (IRSA)
   [ ] Secrets Manager
-  [ ] KMS encryption keys
-  [ ] WAF configuration
-  ○ SOC 2 compliant
-  ○ HIPAA ready
+  [ ] KMS customer keys
+  [ ] AWS SSO integration
+  ○ No long-lived credentials
+  ○ Audit logging enabled
 `,
   },
   {
     id: 'incident-response',
     title: 'Incident Response',
-    description: 'Production incident handling playbook',
+    description: 'On-call workflow and resolution tracking',
     category: 'devops',
     recommendedView: 'list',
     tags: ['incident', 'response', 'oncall'],
-    content: `@project INCIDENT-2024-042
-@severity P1 - Major Outage
-@oncall @alice
-@started 2024-01-15T14:32:00Z
+    content: `@project INCIDENT-2024-0892
+@severity P1 - Service Degradation
+@oncall @sarah
+@commander @michael
+@scribe @david
 
-== Detection ==
+== 🚨 Detection ==
 
-[x] Alert triggered !0 14:32
-  ● Source: PagerDuty
-  ● Alert: API error rate > 10%
-  ● Affected: /api/v1/orders
+03:42 UTC - Alert Triggered
+  ● Source: Datadog
+  ● Alert: "API latency > 5s"
+  ● Dashboard: ddog.co/dash/api-prod
 
-[x] Acknowledge incident !0 @alice 14:35
-  ● Incident commander: @alice
-  ● Comms lead: @bob
+03:47 UTC - Incident Declared
+  [x] Acknowledged by @sarah
+  [x] Incident channel created
+  [x] Status page: investigating
+  ● Slack: #inc-2024-0892
 
-== Investigation ==
+== 🔍 Investigation ==
 
-[x] Initial assessment !0 @alice ~10m
-  [x] Check dashboards
-  [x] Review recent deploys
-  [x] Check dependencies
-  context:
-    deploy: v2.4.5 at 14:15
-    error: "Connection refused to payment-svc"
-    affected_users: ~2000
+[x] Initial Assessment !0 @sarah ~10m
+  [x] Scope: /api/v1/* endpoints
+  [x] Impact: 40% of requests
+  [x] Timeline: Started 03:38 UTC
+  [x] Changes: Deploy 4.12.1 at 03:35
 
-[x] Root cause identified !0 @alice 14:45
-  ● Payment service crashed
-  ● OOM kill due to memory leak
-  ● Introduced in v2.4.5
+  ● Hypothesis: Bad deploy
 
-== Mitigation ==
+[x] Deep Dive !0 @sarah ~15m
+  [x] Check pod health
+  [x] Analyze error logs
+  [x] Review deployment diff
+  [x] Database connections?
 
-[x] Rollback deployment !0 @alice 14:50
+  ● Root cause: N+1 query in new
+    endpoint hitting 500ms timeout
+  ● Introduced: PR #8921
+
+== 🛠️ Mitigation ==
+
+[x] Immediate Actions !0 @sarah
+  [x] Scale API pods 6 → 20
+  [x] Increase DB pool 50 → 200
+  ● Partial relief: latency 5s → 2s
+
+[x] Rollback !0 @michael
   [x] kubectl rollout undo
-  [x] Verify old version running
-  [x] Confirm error rate dropping
-  ● Rolled back to v2.4.4
+  [x] Verify 4.12.0 running
+  [x] Monitor error rates
+  ● Full resolution: 04:23 UTC
 
-[x] Verify recovery !0 @alice 15:00
-  [x] Error rate < 0.1%
-  [x] Orders processing
-  [x] No data loss confirmed
-  ● Service restored
+== 📢 Communication ==
 
-== Communication ==
+[x] Internal Updates @david
+  [x] 03:50 - Investigating
+  [x] 04:10 - Mitigation in progress
+  [x] 04:25 - Resolved
 
-[x] Internal update !1 @bob 14:40
-  [x] Slack #incidents
-  [x] Stakeholder email
-
-[x] Customer communication !1 @bob 15:10
+[x] External Updates @comms
   [x] Status page updated
   [x] Twitter acknowledgment
-  [x] Resolution notice
+  [x] Customer email (enterprise)
 
-== Post-Incident ==
+== 📝 Follow-up ==
 
-[ ] Blameless postmortem !1 @alice ~2h
-  [ ] Timeline documented
-  [ ] Root cause analysis
-  [ ] Action items identified
+[ ] Post-Mortem !1 @sarah >2024-01-18
+  [ ] 5 Whys analysis
+  [ ] Timeline documentation
+  [ ] Action items
 
-[ ] Preventive measures !0
-  [ ] Add memory limits
-  [ ] Improve alerting
-  [ ] Add canary deploys
+Action items:
+  [ ] Add N+1 query detection to CI
+  [ ] Implement canary deployments
+  [ ] Improve load test coverage
+  [ ] Add circuit breaker
 `,
   },
 
-  // ============================================================
-  // PERSONAL
-  // ============================================================
+  // ═══════════════════════════════════════════════════════════════
+  // PERSONAL - Relatable, aspirational
+  // ═══════════════════════════════════════════════════════════════
   {
     id: 'daily-planning',
     title: 'Daily Planning',
-    description: 'Personal daily task management',
+    description: 'Personal daily schedule with time blocks',
     category: 'personal',
     recommendedView: 'list',
     featured: true,
     tags: ['daily', 'personal', 'productivity'],
-    content: `@project Monday, January 15
-@focus Deep Work
+    content: `@project Monday, January 15th
+@theme Deep Work Day
+@energy ████████░░ 80%
 
-== Morning Routine ==
+== ☀️ Morning Ritual ==
 
-[x] Wake up 6:30 AM
-[x] Meditation ~15m
-[x] Exercise ~30m
-[x] Healthy breakfast
+[x] 6:00 Wake with sunrise
+[x] 6:15 Meditation ~20m
+  - Headspace: Focus pack
+[x] 6:45 Movement ~30m
+  [x] 20 min run
+  [x] Stretching
+[x] 7:30 Healthy breakfast
+  - Oatmeal, berries, coffee
 
-== Deep Work Block (9 AM - 12 PM) ==
+== 🎯 Deep Work (9-12) ==
 
-◐ Write project proposal !0 ~2h
-  [x] Outline main points
-  [~] Draft introduction
-  [ ] Add supporting data
-  [ ] Review and polish
+◐ Write quarterly review !0 ~2h
+  [x] Gather metrics
+  [x] Draft narrative
+  [~] Add visualizations
+  [ ] Final polish
+  - No Slack, no email
+  - Phone in drawer
 
-[ ] Code review for team !1 ~1h
-  [ ] PR #234 - Authentication
-  [ ] PR #235 - Dashboard
+[ ] Code review: auth refactor !1 ~1h
+  - PR #234 from @alex
+  - Focus: security implications
 
-== Afternoon ==
+== ☕ Afternoon ==
 
-[ ] Team standup !0 ^14:00 ~15m
-[ ] 1:1 with manager !1 ^15:00 ~30m
-  - Discuss promotion path
-  - Q1 goals review
+[x] 12:00 Lunch & walk ~45m
+  - Leave the laptop behind
 
-[ ] Respond to emails !2 ~30m
-  [ ] Client follow-up
-  [ ] Schedule meetings
-  [ ] Clear inbox
+[ ] 13:00 Team standup !0 ~15m
+[ ] 14:00 1:1 with Jordan !1 ~30m
+  - Career growth discussion
+  - Feedback on presentation
 
-== Evening ==
+[ ] Process email !2 ~30m
+  [ ] Reply to client
+  [ ] Schedule dentist
+  [ ] RSVP to dinner
 
-[ ] Grocery shopping !2
-  [ ] Vegetables
-  [ ] Protein
-  [ ] Snacks for week
+[ ] 15:30 Focus block #2 ~90m
+  - Continue auth review
+  - Prep for tomorrow
 
-[ ] Read for 30 minutes !3
-  - Currently: "Deep Work" by Cal Newport
+== 🌙 Evening ==
 
-[ ] Plan tomorrow !2 ~10m
+[ ] 18:00 Gym - leg day ~1h
+[ ] 19:30 Cook dinner
+  - Try that pasta recipe
+[ ] 21:00 Read ~30m
+  - "Four Thousand Weeks"
+[ ] 22:00 Wind down
+  [ ] Journal
+  [ ] Plan tomorrow
+  [ ] Screens off
 `,
   },
   {
     id: 'learning-plan',
     title: 'Learning Plan',
-    description: 'Personal skill development tracking',
+    description: 'Skill development with milestones',
     category: 'personal',
     recommendedView: 'summary',
     tags: ['learning', 'goals', 'skills'],
-    content: `@project 2024 Learning Goals
+    content: `@project Rust Mastery Journey
 @commitment 10 hours/week
+@started January 2024
 
-== Programming Languages ==
+== 📖 Fundamentals (Jan-Feb) ==
 
-◐ Rust Mastery !1 ~100h
-  [x] The Rust Book
-  [x] Rustlings exercises
-  [~] Build CLI tool
-  [ ] Contribute to open source
-  ○ Complete Advent of Code in Rust
+[x] The Rust Book !0 ~40h
+  [x] Chapters 1-10: Basics
+  [x] Chapters 11-15: Intermediate
+  [x] Chapters 16-20: Advanced
+  ● Completed in 6 weeks
 
-[ ] Go Proficiency !2 ~60h
-  [ ] Tour of Go
-  [ ] Build REST API
-  [ ] Concurrency patterns
-  ○ Deploy production service
+[x] Rustlings Exercises !0 ~15h
+  [x] 95 exercises completed
+  [x] All tests passing
+  ● Confidence: ████████░░
 
-== Cloud & DevOps ==
+◐ First Project: CLI Tool !1 ~20h
+  [x] Argument parsing (clap)
+  [x] File I/O
+  [~] Error handling
+  [ ] Publish to crates.io
+  - Building: A task runner like make
 
-◐ Kubernetes (CKA) !0 ~80h
-  [x] Core concepts
-  [x] Workloads
-  [~] Networking
-  [ ] Storage
-  [ ] Security
-  [ ] Practice exams
-  ○ Pass CKA certification
+== 🔧 Intermediate (Mar-Apr) ==
 
-[ ] AWS Solutions Architect !1 ~100h
-  [ ] Compute services
-  [ ] Storage & databases
-  [ ] Networking
-  [ ] Security
-  ○ Pass SAA-C03 exam
+◐ Async Rust !0 ~30h
+  [x] Tokio fundamentals
+  [~] Streams and futures
+  [ ] Building a web server
+  [ ] Database connections
 
-== Soft Skills ==
+[ ] Systems Programming !1 ~25h
+  [ ] Memory management
+  [ ] FFI with C
+  [ ] Unsafe Rust
+  [ ] Performance optimization
 
-[ ] Technical Writing !2 ~40h
-  [ ] Write 10 blog posts
-  [ ] Document a project
-  [ ] Create tutorial series
-  ○ 1000+ readers on a post
+== 🚀 Advanced (May-Jun) ==
 
-[ ] Public Speaking !2 ~30h
-  [ ] Join Toastmasters
-  [ ] Give team presentation
-  [ ] Conference talk proposal
-  ○ Speak at local meetup
+[ ] Contribute to Open Source !0
+  [ ] Find beginner-friendly issues
+  [ ] First PR merged
+  [ ] Regular contributor
+  ○ 10 merged PRs
+
+[ ] Build Something Real !0
+  [ ] Idea: Git TUI client
+  [ ] Design & architecture
+  [ ] Core implementation
+  [ ] Polish & release
+  ○ 100+ GitHub stars
+
+== 🎯 Milestones ==
+
+○ Read The Book
+● Complete Rustlings
+○ First crates.io publish
+○ First open source PR
+○ Build real project
+○ Give a talk about Rust
 `,
   },
   {
     id: 'project-checklist',
-    title: 'Side Project Launch',
-    description: 'Checklist for launching a side project',
+    title: 'Project Launch',
+    description: 'Launch checklist with milestones',
     category: 'personal',
     recommendedView: 'kanban',
     tags: ['project', 'launch', 'checklist'],
-    content: `@project Launch My SaaS
-@deadline 2024-03-01
+    content: `@project TaskFlow (my SaaS)
+@tagline "Task management for developers"
+@deadline March 2024 launch
+@budget $5,000
 
-== Planning ==
+== 💡 Validation ==
 
-[x] Validate idea !0
-  [x] Talk to 10 potential users
+[x] Problem Discovery !0
+  [x] Interview 15 developers
+  [x] Survey in r/programming
   [x] Analyze competitors
-  [x] Define MVP scope
+  ● Insight: Devs hate context switching
+  ● Opportunity: GitHub-integrated tasks
 
-[x] Technical decisions !1
-  [x] Choose tech stack
-  [x] Select hosting
-  [x] Plan architecture
+[x] Solution Design !0
+  [x] MVP feature list
+  [x] Pricing research
+  [x] Name & domain secured
+  ● Domain: taskflow.dev ($89)
 
-== Development ==
+== 👨‍💻 Build ==
 
-◐ Build MVP !0 ~80h
-  [x] User authentication
-  [x] Core feature 1
-  [~] Core feature 2
-  [ ] Payment integration
-  [ ] Email notifications
+◐ Core Product !0 ~120h
+  [x] Auth (Clerk)
+  [x] Database (Supabase)
+  [~] Task management
+  [~] GitHub integration
+  [ ] Notifications
+  [ ] Billing (Stripe)
 
-[ ] Testing !1
-  [ ] Unit tests
-  [ ] User acceptance testing
-  [ ] Performance testing
+[ ] Landing Page !1 ~20h
+  [ ] Hero section
+  [ ] Feature showcase
+  [ ] Pricing table
+  [ ] Testimonials (from beta)
+  - Stack: Next.js + Tailwind
 
-== Launch Prep ==
-
-[ ] Marketing site !1
-  [ ] Landing page
-  [ ] Pricing page
-  [ ] About page
-  [ ] Blog setup
+== 📋 Launch Prep ==
 
 [ ] Legal !1
+  [ ] Privacy policy (Termly)
   [ ] Terms of service
-  [ ] Privacy policy
   [ ] Cookie consent
+  ● Budget: $0 (templates)
 
 [ ] Analytics !2
-  [ ] Google Analytics
-  [ ] Error tracking
-  [ ] User feedback widget
+  [ ] Plausible setup
+  [ ] Conversion tracking
+  [ ] Error monitoring (Sentry)
 
-== Launch ==
+== 🚀 Launch ==
 
-[ ] Soft launch !0
-  [ ] Invite beta users
-  [ ] Collect feedback
-  [ ] Fix critical bugs
+[ ] Soft Launch !0
+  [ ] 20 beta users
+  [ ] Feedback collection
+  [ ] Critical bug fixes
+  ○ 5 paying customers
 
-[ ] Public launch !0
+[ ] Public Launch !0
   [ ] Product Hunt
   [ ] Hacker News
-  [ ] Twitter/X
-  [ ] Reddit
-  ○ 100 signups first week
+  [ ] Dev.to article
+  [ ] Twitter thread
+  ○ 100 signups week 1
+  ○ $500 MRR month 1
 `,
   },
 ];
 
-// ============================================================
+// ═══════════════════════════════════════════════════════════════
 // HELPER FUNCTIONS
-// ============================================================
+// ═══════════════════════════════════════════════════════════════
 
 export function getExampleById(id: string): Example | undefined {
   return EXAMPLES.find((e) => e.id === id);

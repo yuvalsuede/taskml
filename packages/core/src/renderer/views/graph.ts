@@ -1,5 +1,6 @@
 /**
- * Graph View Renderer - Dependency graph visualization
+ * Graph View Renderer - Beautiful dependency graph visualization
+ * Inspired by mermaid.live mind maps
  */
 
 import type { ViewRenderer, RenderContext, RenderableTask } from '../types';
@@ -11,14 +12,28 @@ interface GraphNode {
   task: RenderableTask;
   x: number;
   y: number;
+  width: number;
+  height: number;
   level: number;
+  color: string;
 }
 
 interface GraphEdge {
   from: string;
   to: string;
-  type: 'depends' | 'blocked';
 }
+
+// Color palette for nodes (mermaid-inspired)
+const NODE_COLORS = [
+  '#8B5CF6', // Purple
+  '#EC4899', // Pink
+  '#06B6D4', // Cyan
+  '#10B981', // Green
+  '#F59E0B', // Amber
+  '#EF4444', // Red
+  '#3B82F6', // Blue
+  '#6366F1', // Indigo
+];
 
 export class GraphViewRenderer implements ViewRenderer {
   readonly viewType = 'graph' as const;
@@ -28,31 +43,46 @@ export class GraphViewRenderer implements ViewRenderer {
     const tasks = toRenderableTasks(document.tasks);
     const flat = flattenTasks(tasks);
 
+    // Only show tasks that have IDs (can be referenced) or have dependencies
+    const graphTasks = flat.filter(t => t.id || t.dependsOn?.length || t.blockedBy?.length);
+
+    // If no graph-worthy tasks, show all top-level tasks
+    const displayTasks = graphTasks.length > 0 ? graphTasks : tasks.slice(0, 10);
+
     // Build graph data
-    const { nodes, edges } = this.buildGraph(flat);
+    const { nodes, edges } = this.buildGraph(displayTasks);
 
-    // Render nodes and edges
+    if (nodes.length === 0) {
+      return `
+<div class="${cls('container')} ${cls('graph-view')}">
+  <div class="${cls('graph-empty')}">
+    <p>No tasks to display</p>
+    <p class="${cls('graph-hint')}">Add task IDs with ^taskid and dependencies with depends:</p>
+  </div>
+</div>`.trim();
+    }
+
+    // Calculate canvas size
+    const contentWidth = Math.max(...nodes.map(n => n.x + n.width)) + 40;
+    const contentHeight = Math.max(...nodes.map(n => n.y + n.height)) + 40;
+
+    // Render
+    const edgeElements = edges.map(edge => this.renderEdge(nodes, edge)).join('');
     const nodeElements = nodes.map(node => this.renderNode(ctx, node)).join('');
-    const edgeElements = edges.map(edge => this.renderEdge(ctx, nodes, edge)).join('');
-
-    const width = Math.max(...nodes.map(n => n.x)) + 280;
-    const height = Math.max(...nodes.map(n => n.y)) + 100;
 
     return `
 <div class="${cls('container')} ${cls('graph-view')}">
-  <svg class="${cls('graph-svg')}" viewBox="0 0 ${width} ${height}" style="min-width: ${width}px; min-height: ${height}px;">
-    <defs>
-      <marker id="arrowhead-depends" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-        <polygon points="0 0, 10 3.5, 0 7" fill="var(--taskml-status-progress)" />
-      </marker>
-      <marker id="arrowhead-blocked" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-        <polygon points="0 0, 10 3.5, 0 7" fill="var(--taskml-status-blocked)" />
-      </marker>
-    </defs>
-    <g class="${cls('graph-edges')}">${edgeElements}</g>
-    <g class="${cls('graph-nodes')}">${nodeElements}</g>
-  </svg>
-  ${this.renderLegend(ctx)}
+  <div class="${cls('graph-canvas')}">
+    <svg class="${cls('graph-svg')}" width="${contentWidth}" height="${contentHeight}" viewBox="0 0 ${contentWidth} ${contentHeight}">
+      <defs>
+        <marker id="taskml-arrow" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L0,10 L12,5 z" fill="rgba(255,255,255,0.6)" />
+        </marker>
+      </defs>
+      <g class="${cls('graph-edges')}">${edgeElements}</g>
+      <g class="${cls('graph-nodes')}">${nodeElements}</g>
+    </svg>
+  </div>
 </div>`.trim();
   }
 
@@ -62,9 +92,13 @@ export class GraphViewRenderer implements ViewRenderer {
     return `
 ${getBaseStyles(ctx)}
 
-.${cls('graph-view')} {
-  overflow: auto;
-  padding: var(--taskml-space-md);
+.${cls('container')}.${cls('graph-view')} {
+  background: transparent;
+  border-radius: 0;
+}
+
+.${cls('graph-canvas')} {
+  padding: 40px;
 }
 
 .${cls('graph-svg')} {
@@ -72,85 +106,47 @@ ${getBaseStyles(ctx)}
   font-family: var(--taskml-font-family);
 }
 
-.${cls('graph-node')} {
-  cursor: pointer;
+.${cls('graph-empty')} {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: rgba(255,255,255,0.6);
+  text-align: center;
 }
 
-.${cls('graph-node-rect')} {
-  fill: var(--taskml-bg);
-  stroke: var(--taskml-border);
-  stroke-width: 1;
-  rx: 6;
-  transition: stroke 0.15s;
+.${cls('graph-hint')} {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 8px;
 }
 
-.${cls('graph-node')}:hover .${cls('graph-node-rect')} {
-  stroke: var(--taskml-status-progress);
-  stroke-width: 2;
+.${cls('graph-node-bg')} {
+  rx: 8;
+  ry: 8;
 }
 
-.${cls('graph-node-status')} {
+.${cls('graph-node-title')} {
   font-size: 14px;
-}
-
-.${cls('graph-node-text')} {
-  font-size: 13px;
-  fill: var(--taskml-text);
+  font-weight: 600;
+  fill: white;
 }
 
 .${cls('graph-node-id')} {
-  font-size: 10px;
-  fill: var(--taskml-text-muted);
+  font-size: 11px;
+  fill: rgba(255,255,255,0.7);
+}
+
+.${cls('graph-node-status')} {
+  font-size: 16px;
 }
 
 .${cls('graph-edge')} {
   fill: none;
+  stroke: rgba(255,255,255,0.4);
   stroke-width: 2;
-}
-
-.${cls('graph-edge-depends')} {
-  stroke: var(--taskml-status-progress);
-}
-
-.${cls('graph-edge-blocked')} {
-  stroke: var(--taskml-status-blocked);
-  stroke-dasharray: 5,3;
-}
-
-.${cls('graph-legend')} {
-  display: flex;
-  gap: var(--taskml-space-md);
-  padding: var(--taskml-space-md);
-  margin-top: var(--taskml-space-md);
-  background: var(--taskml-bg-secondary);
-  border-radius: var(--taskml-radius-md);
-  font-size: var(--taskml-font-size-sm);
-}
-
-.${cls('legend-item')} {
-  display: flex;
-  align-items: center;
-  gap: var(--taskml-space-xs);
-}
-
-.${cls('legend-line')} {
-  width: 24px;
-  height: 2px;
-}
-
-.${cls('legend-depends')} {
-  background: var(--taskml-status-progress);
-}
-
-.${cls('legend-blocked')} {
-  background: var(--taskml-status-blocked);
-  background: repeating-linear-gradient(
-    90deg,
-    var(--taskml-status-blocked) 0,
-    var(--taskml-status-blocked) 5px,
-    transparent 5px,
-    transparent 8px
-  );
+  marker-end: url(#taskml-arrow);
 }
 `.trim();
   }
@@ -160,18 +156,20 @@ ${getBaseStyles(ctx)}
     const edges: GraphEdge[] = [];
     const taskMap = new Map<string, RenderableTask>();
 
-    // Build task lookup by id or key
+    // Build task lookup
     for (const task of tasks) {
       const id = task.id || task.key;
       taskMap.set(id, task);
     }
 
-    // Compute levels based on dependencies
+    // Calculate dependency levels
     const levels = new Map<string, number>();
 
-    function getLevel(taskId: string): number {
+    function getLevel(taskId: string, visited = new Set<string>()): number {
       if (levels.has(taskId)) return levels.get(taskId)!;
+      if (visited.has(taskId)) return 0; // Circular dependency
 
+      visited.add(taskId);
       const task = taskMap.get(taskId);
       if (!task) return 0;
 
@@ -181,19 +179,17 @@ ${getBaseStyles(ctx)}
         return 0;
       }
 
-      const maxDepLevel = Math.max(...deps.map(d => getLevel(d)));
+      const maxDepLevel = Math.max(0, ...deps.map(d => getLevel(d, new Set(visited))));
       const level = maxDepLevel + 1;
       levels.set(taskId, level);
       return level;
     }
 
-    // Calculate levels for all tasks
     for (const task of tasks) {
-      const id = task.id || task.key;
-      getLevel(id);
+      getLevel(task.id || task.key);
     }
 
-    // Group tasks by level for positioning
+    // Group by level
     const byLevel = new Map<number, RenderableTask[]>();
     for (const task of tasks) {
       const id = task.id || task.key;
@@ -202,36 +198,58 @@ ${getBaseStyles(ctx)}
       byLevel.get(level)!.push(task);
     }
 
-    // Position nodes
-    const nodeWidth = 240;
-    const nodeHeight = 60;
+    // Position nodes - large nodes with generous spacing like mermaid
+    const nodeWidth = 160;
+    const nodeHeight = 52;
     const xGap = 80;
     const yGap = 30;
+    const startX = 40;
+    const startY = 40;
+
+    // Center each level vertically
+    const levelHeights = new Map<number, number>();
 
     for (const [level, levelTasks] of byLevel) {
+      levelHeights.set(level, levelTasks.length * (nodeHeight + yGap) - yGap);
+    }
+
+    const maxHeight = Math.max(...Array.from(levelHeights.values()));
+
+    for (const [level, levelTasks] of byLevel) {
+      const levelHeight = levelHeights.get(level) || 0;
+      const yOffset = (maxHeight - levelHeight) / 2;
+
       levelTasks.forEach((task, idx) => {
+        const colorIndex = (level + idx) % NODE_COLORS.length;
         nodes.push({
           task,
-          x: 40 + level * (nodeWidth + xGap),
-          y: 40 + idx * (nodeHeight + yGap),
+          x: startX + level * (nodeWidth + xGap),
+          y: startY + yOffset + idx * (nodeHeight + yGap),
+          width: nodeWidth,
+          height: nodeHeight,
           level,
+          color: NODE_COLORS[colorIndex],
         });
       });
     }
 
     // Build edges
     for (const task of tasks) {
-      const id = task.id || task.key;
+      const toId = task.id || task.key;
 
       if (task.dependsOn) {
-        for (const depId of task.dependsOn) {
-          edges.push({ from: depId, to: id, type: 'depends' });
+        for (const fromId of task.dependsOn) {
+          if (taskMap.has(fromId)) {
+            edges.push({ from: fromId, to: toId });
+          }
         }
       }
 
       if (task.blockedBy) {
-        for (const blockerId of task.blockedBy) {
-          edges.push({ from: blockerId, to: id, type: 'blocked' });
+        for (const fromId of task.blockedBy) {
+          if (taskMap.has(fromId)) {
+            edges.push({ from: fromId, to: toId });
+          }
         }
       }
     }
@@ -241,57 +259,40 @@ ${getBaseStyles(ctx)}
 
   private renderNode(ctx: RenderContext, node: GraphNode): string {
     const { cls } = ctx;
-    const { task, x, y } = node;
+    const { task, x, y, width, height, color } = node;
     const config = STATUS_CONFIG[task.status];
     const desc = escapeHtml(task.description);
-    const truncDesc = desc.length > 30 ? desc.slice(0, 27) + '...' : desc;
+    const truncDesc = desc.length > 18 ? desc.slice(0, 16) + '...' : desc;
     const id = task.id || task.key;
 
     return `
-<g class="${cls('graph-node')}" transform="translate(${x}, ${y})">
-  <rect class="${cls('graph-node-rect')}" width="240" height="56" />
-  <text class="${cls('graph-node-status')}" x="12" y="24" style="fill: ${config.color}">${config.icon}</text>
-  <text class="${cls('graph-node-text')}" x="34" y="24">${truncDesc}</text>
-  <text class="${cls('graph-node-id')}" x="12" y="44">${escapeHtml(id)}</text>
+<g transform="translate(${x}, ${y})">
+  <rect class="${cls('graph-node-bg')}" width="${width}" height="${height}" fill="${color}" />
+  <text class="${cls('graph-node-status')}" x="12" y="22">${config.icon}</text>
+  <text class="${cls('graph-node-title')}" x="32" y="22">${truncDesc}</text>
+  <text class="${cls('graph-node-id')}" x="12" y="40">${escapeHtml(id)}</text>
 </g>`.trim();
   }
 
-  private renderEdge(ctx: RenderContext, nodes: GraphNode[], edge: GraphEdge): string {
-    const { cls } = ctx;
-
+  private renderEdge(nodes: GraphNode[], edge: GraphEdge): string {
     const fromNode = nodes.find(n => (n.task.id || n.task.key) === edge.from);
     const toNode = nodes.find(n => (n.task.id || n.task.key) === edge.to);
 
     if (!fromNode || !toNode) return '';
 
-    const x1 = fromNode.x + 240;
-    const y1 = fromNode.y + 28;
+    // Calculate connection points
+    const x1 = fromNode.x + fromNode.width;
+    const y1 = fromNode.y + fromNode.height / 2;
     const x2 = toNode.x;
-    const y2 = toNode.y + 28;
+    const y2 = toNode.y + toNode.height / 2;
 
-    // Create curved path
-    const midX = (x1 + x2) / 2;
-    const path = `M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`;
+    // Create smooth bezier curve
+    const dx = x2 - x1;
+    const controlOffset = Math.min(Math.abs(dx) * 0.5, 80);
 
-    const markerEnd = `url(#arrowhead-${edge.type})`;
+    const path = `M ${x1} ${y1} C ${x1 + controlOffset} ${y1}, ${x2 - controlOffset} ${y2}, ${x2} ${y2}`;
 
-    return `<path class="${cls('graph-edge')} ${cls(`graph-edge-${edge.type}`)}" d="${path}" marker-end="${markerEnd}" />`;
-  }
-
-  private renderLegend(ctx: RenderContext): string {
-    const { cls } = ctx;
-
-    return `
-<div class="${cls('graph-legend')}">
-  <div class="${cls('legend-item')}">
-    <span class="${cls('legend-line')} ${cls('legend-depends')}"></span>
-    <span>Depends on</span>
-  </div>
-  <div class="${cls('legend-item')}">
-    <span class="${cls('legend-line')} ${cls('legend-blocked')}"></span>
-    <span>Blocked by</span>
-  </div>
-</div>`.trim();
+    return `<path class="taskml-graph-edge" d="${path}" />`;
   }
 }
 

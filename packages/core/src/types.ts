@@ -68,10 +68,23 @@ export interface Comment {
   text: string;
 }
 
+export interface Section {
+  title: string;
+  level: number;
+  tasks: Task[];
+}
+
+export interface Include {
+  path: string;
+  line: number;
+}
+
 export interface Document {
   version: string;
   directives: Record<string, string>;
   tasks: Task[];
+  sections?: Section[];
+  includes?: Include[];
   view?: ViewConfig;
   agentContext?: AgentContext;
   handoff?: HandoffInfo;
@@ -99,4 +112,5 @@ export interface ParseError {
 export interface ParseResult {
   document: Document | null;
   errors: ParseError[];
+  warnings?: ParseError[];
 }

@@ -1,5 +1,6 @@
 /**
  * Header - Main application header
+ * TaskML branded - see BRANDBOOK.md
  */
 
 'use client';
@@ -18,7 +19,7 @@ import {
   FolderOpen,
 } from 'lucide-react';
 import { Button, Tooltip } from '../ui';
-import { useUIStore, usePreviewStore } from '../../stores';
+import { useUIStore } from '../../stores';
 import { useTheme } from '../../hooks';
 
 export function Header() {
@@ -29,18 +30,20 @@ export function Header() {
   const themeLabel = theme === 'auto' ? 'Auto' : isDark ? 'Dark' : 'Light';
 
   return (
-    <header className="h-14 flex items-center justify-between px-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-      {/* Left: Logo and Examples */}
+    <header className="h-14 flex items-center justify-between px-4 border-b border-midnight-border bg-midnight-elevated">
+      {/* Left: Logo and Navigation */}
       <div className="flex items-center gap-4">
-        <a href="/" className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white">
+        {/* Logo */}
+        <a href="/" className="flex items-center gap-2.5 group">
           <span className="text-2xl">📋</span>
-          <span>TaskML</span>
-          <span className="text-xs font-normal px-1.5 py-0.5 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded">
+          <span className="text-xl font-semibold text-white">TaskML</span>
+          <span className="text-xs font-medium px-2 py-0.5 bg-signal/20 text-signal rounded">
             Playground
           </span>
         </a>
 
-        <div className="hidden md:flex items-center gap-1">
+        {/* Primary Navigation */}
+        <nav className="hidden md:flex items-center gap-1 ml-2">
           <Tooltip content="Templates" shortcut="Ctrl+O">
             <Button
               variant="ghost"
@@ -62,21 +65,24 @@ export function Header() {
               <span className="hidden lg:inline">My Diagrams</span>
             </Button>
           </Tooltip>
-        </div>
+        </nav>
       </div>
 
       {/* Right: Actions */}
-      <div className="flex items-center gap-1">
-        <Tooltip content={`Theme: ${themeLabel}`}>
+      <div className="flex items-center gap-1.5">
+        {/* Theme Toggle */}
+        <Tooltip content={`Theme: ${themeLabel}`} shortcut="Ctrl+D">
           <Button variant="ghost" size="icon" onClick={toggleTheme}>
             <ThemeIcon className="w-5 h-5" />
           </Button>
         </Tooltip>
 
-        <div className="hidden sm:flex items-center gap-1">
+        {/* Action Buttons */}
+        <div className="hidden sm:flex items-center gap-1.5">
+          {/* Save - Primary action (Signal Orange) */}
           <Tooltip content="Save" shortcut="Ctrl+S">
             <Button
-              variant="ghost"
+              variant="primary"
               size="sm"
               onClick={() => openDialog('save')}
             >
@@ -107,6 +113,9 @@ export function Header() {
             </Button>
           </Tooltip>
 
+          {/* Divider */}
+          <div className="w-px h-5 bg-midnight-border mx-1" />
+
           <Tooltip content="Keyboard shortcuts" shortcut="?">
             <Button
               variant="ghost"
@@ -117,7 +126,7 @@ export function Header() {
             </Button>
           </Tooltip>
 
-          <Tooltip content="Settings">
+          <Tooltip content="Settings" shortcut="Ctrl+,">
             <Button
               variant="ghost"
               size="icon"
@@ -128,7 +137,7 @@ export function Header() {
           </Tooltip>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile Menu */}
         <div className="sm:hidden">
           <Button variant="ghost" size="icon">
             <Menu className="w-5 h-5" />

@@ -9,6 +9,17 @@ export { tokenize, TokenType } from './lexer';
 export type { Token } from './lexer';
 export { parse } from './parser';
 
+// Error types
+export {
+  ErrorCode,
+  ErrorSeverity,
+  ERROR_MESSAGES,
+  ERROR_SUGGESTIONS,
+  createError,
+  formatError,
+} from './errors';
+export type { TaskMLError } from './errors';
+
 // Interchange formats
 export {
   toJSON,

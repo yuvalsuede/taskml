@@ -2,59 +2,173 @@
 @tailwind components;
 @tailwind utilities;
 
-/* CSS Variables for theming */
+/* ═══════════════════════════════════════════════════════════════
+   TaskML Brand System
+   See BRANDBOOK.md for full documentation
+   ═══════════════════════════════════════════════════════════════ */
+
 :root {
+  /* ─── Signal Orange (Primary) ─── */
+  --signal: #F97316;
+  --signal-hover: #FB923C;
+  --signal-light: #FDBA74;
+  --signal-dark: #C2410C;
+
+  /* ─── Status Colors ─── */
+  --status-pending: #6B7280;
+  --status-progress: #3B82F6;
+  --status-review: #A855F7;
+  --status-completed: #22C55E;
+  --status-blocked: #EF4444;
+  --status-cancelled: #6B7280;
+
+  /* ─── Priority Colors ─── */
+  --priority-0: #EF4444;
+  --priority-1: #F97316;
+  --priority-2: #EAB308;
+  --priority-3: #6B7280;
+
+  /* ─── Motion ─── */
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ─── Dark Mode (Default) ─── */
+:root, .dark {
+  --bg: #0D1117;
+  --bg-elevated: #161B22;
+  --bg-surface: #21262D;
+  --border: #30363D;
+  --border-active: #484F58;
+  --text: #E6EBF1;
+  --text-muted: #8B949E;
+  --text-subtle: #6E7681;
+
+  /* RGB values for Tailwind */
+  --background: 13 17 23;
+  --foreground: 230 235 241;
+}
+
+/* ─── Light Mode ─── */
+[data-theme="light"], .light {
+  --bg: #FFFFFF;
+  --bg-elevated: #F6F8FA;
+  --bg-surface: #F0F3F6;
+  --border: #D0D7DE;
+  --border-active: #A8B1BC;
+  --text: #1F2328;
+  --text-muted: #656D76;
+  --text-subtle: #8B949E;
+
   --background: 255 255 255;
-  --foreground: 31 41 55;
+  --foreground: 31 35 40;
 }
 
-.dark {
-  --background: 17 24 39;
-  --foreground: 249 250 251;
-}
+/* ═══════════════════════════════════════════════════════════════
+   Typography
+   ═══════════════════════════════════════════════════════════════ */
 
-/* Base styles */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
-/* Animation utilities */
+code, pre, .font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Component Styles
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Buttons ─── */
+.btn-primary {
+  background-color: var(--signal);
+  color: white;
+  font-weight: 500;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+.btn-primary:hover {
+  background-color: var(--signal-hover);
+}
+.btn-primary:active {
+  background-color: var(--signal-dark);
+}
+
+/* ─── Focus States ─── */
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: rgba(249, 115, 22, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Animations
+   ═══════════════════════════════════════════════════════════════ */
+
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-@keyframes zoom-in-95 {
+@keyframes zoom-in {
   from { transform: scale(0.95); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 
-@keyframes slide-in-from-right-full {
+@keyframes slide-up {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slide-down {
+  from { transform: translateY(-8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slide-in-right {
   from { transform: translateX(100%); }
   to { transform: translateX(0); }
 }
 
 .animate-in {
-  animation-duration: 200ms;
-  animation-timing-function: ease-out;
+  animation-duration: var(--duration-normal);
+  animation-timing-function: var(--ease-out);
   animation-fill-mode: forwards;
 }
 
-.fade-in {
-  animation-name: fade-in;
+.fade-in { animation-name: fade-in; }
+.zoom-in { animation-name: zoom-in; }
+.zoom-in-95 { animation-name: zoom-in; }
+.slide-up { animation-name: slide-up; }
+.slide-down { animation-name: slide-down; }
+.slide-in-from-right-full { animation-name: slide-in-right; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-in,
+  [class*="animate-"] {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
-.zoom-in-95 {
-  animation-name: zoom-in-95;
-}
+/* ═══════════════════════════════════════════════════════════════
+   Scrollbars
+   ═══════════════════════════════════════════════════════════════ */
 
-.slide-in-from-right-full {
-  animation-name: slide-in-from-right-full;
-}
-
-/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -65,25 +179,28 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+  background: var(--border);
   border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+  background: var(--border-active);
+  background-clip: content-box;
 }
 
-.dark ::-webkit-scrollbar-thumb {
-  background: #4b5563;
-}
+/* ═══════════════════════════════════════════════════════════════
+   Editor & Preview
+   ═══════════════════════════════════════════════════════════════ */
 
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #6b7280;
-}
-
-/* Preview container - ensure TaskML styles work */
 .preview-container {
   min-height: 100%;
+}
+
+.preview-container.graph-preview {
+  width: max-content;
+  height: max-content;
 }
 
 /* Monaco editor overrides */
@@ -91,34 +208,50 @@ body {
   background: transparent !important;
 }
 
-/* Resize handle styling */
+/* Resize handle */
 [data-panel-resize-handle-id] {
-  transition: background-color 150ms;
+  transition: background-color var(--duration-fast) var(--ease-out);
 }
 
 [data-panel-resize-handle-id]:hover,
 [data-panel-resize-handle-id][data-resize-handle-active] {
-  background-color: #3b82f6 !important;
+  background-color: var(--signal) !important;
 }
 
-/* Selection colors */
-::selection {
-  background: #bfdbfe;
-}
+/* ═══════════════════════════════════════════════════════════════
+   Status Indicators (TaskML-specific)
+   ═══════════════════════════════════════════════════════════════ */
 
-.dark ::selection {
-  background: #3b82f680;
-}
+.status-pending { color: var(--status-pending); }
+.status-progress { color: var(--status-progress); }
+.status-review { color: var(--status-review); }
+.status-completed { color: var(--status-completed); }
+.status-blocked { color: var(--status-blocked); }
+.status-cancelled { color: var(--status-cancelled); text-decoration: line-through; }
 
-/* Focus visible for accessibility */
-:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
+.priority-0 { color: var(--priority-0); }
+.priority-1 { color: var(--priority-1); }
+.priority-2 { color: var(--priority-2); }
+.priority-3 { color: var(--priority-3); }
+
+/* ═══════════════════════════════════════════════════════════════
+   Utilities
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Signal orange accent */
+.text-signal { color: var(--signal); }
+.bg-signal { background-color: var(--signal); }
+.border-signal { border-color: var(--signal); }
+
+/* Surface colors */
+.bg-surface { background-color: var(--bg); }
+.bg-surface-elevated { background-color: var(--bg-elevated); }
+.border-default { border-color: var(--border); }
+.text-muted { color: var(--text-muted); }
+.text-subtle { color: var(--text-subtle); }
 
 /* Print styles */
 @media print {
-  .no-print {
-    display: none !important;
-  }
+  .no-print { display: none !important; }
+  body { background: white; color: black; }
 }

@@ -131,6 +131,18 @@ export class Lexer {
       return;
     }
 
+    // Section header (== Title == or == Title)
+    if (char === '=' && this.peek(1) === '=' && this.isStartOfLogicalLine()) {
+      this.scanSection();
+      return;
+    }
+
+    // Include directive (< path/to/file)
+    if (char === '<' && this.isStartOfLogicalLine()) {
+      this.scanInclude();
+      return;
+    }
+
     // Note prefix (- at start of logical line)
     if (char === '-' && this.isStartOfLogicalLine()) {
       this.addToken(TokenType.NOTE_PREFIX, '-');
@@ -342,6 +354,57 @@ export class Lexer {
 
     // Unknown fence, treat as text
     this.addToken(TokenType.TEXT, '---', startCol);
+  }
+
+  private scanSection(): void {
+    const startCol = this.column;
+
+    // Count leading = signs (determines level)
+    let level = 0;
+    while (this.peek() === '=') {
+      level++;
+      this.advance();
+    }
+
+    // Skip whitespace after leading =
+    this.skipWhitespace();
+
+    // Collect title until end of line or trailing =
+    let title = '';
+    while (!this.isAtEnd() && this.peek() !== '\n' && this.peek() !== '\r') {
+      // Check for trailing ==
+      if (this.peek() === '=' && this.peek(1) === '=') {
+        // Consume trailing = signs
+        while (this.peek() === '=') {
+          this.advance();
+        }
+        break;
+      }
+      title += this.advance();
+    }
+
+    this.tokens.push({
+      type: TokenType.SECTION,
+      value: title.trim(),
+      line: this.line,
+      column: startCol,
+      raw: String(level),
+    });
+  }
+
+  private scanInclude(): void {
+    const startCol = this.column;
+    this.advance(); // consume <
+
+    this.skipWhitespace();
+
+    // Collect path until end of line
+    let path = '';
+    while (!this.isAtEnd() && this.peek() !== '\n' && this.peek() !== '\r') {
+      path += this.advance();
+    }
+
+    this.addToken(TokenType.INCLUDE, path.trim(), startCol);
   }
 
   private scanCriterion(): boolean {

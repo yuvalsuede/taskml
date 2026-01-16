@@ -13,10 +13,23 @@ import type {
   AgentContext,
   HandoffInfo,
   Comment,
+  Section,
+  Include,
   ParseError,
   ParseResult,
   ParseOptions,
 } from '../types';
+
+// Canonical order of task tokens (lower = earlier in line)
+const TOKEN_ORDER: Record<string, number> = {
+  [TokenType.TEXT]: 0,           // Description comes first
+  [TokenType.PRIORITY]: 1,       // #p0
+  [TokenType.ESTIMATE]: 2,       // ~4h
+  [TokenType.ASSIGNEE]: 3,       // @alice
+  [TokenType.TAG]: 4,            // #backend
+  [TokenType.DUE_DATE]: 5,       // !2026-01-15
+  [TokenType.TASK_ID]: 6,        // ^task-id
+};
 
 /**
  * Parser for TaskML documents
@@ -25,6 +38,7 @@ export class Parser {
   private tokens: Token[] = [];
   private current: number = 0;
   private errors: ParseError[] = [];
+  private warnings: ParseError[] = [];
   private strict: boolean;
 
   constructor(options: ParseOptions = {}) {
@@ -38,10 +52,15 @@ export class Parser {
     this.tokens = tokens;
     this.current = 0;
     this.errors = [];
+    this.warnings = [];
 
     try {
       const document = this.parseDocument();
-      return { document, errors: this.errors };
+      const result: ParseResult = { document, errors: this.errors };
+      if (this.warnings.length > 0) {
+        result.warnings = this.warnings;
+      }
+      return result;
     } catch (e) {
       // Fatal error
       this.addError(`Fatal parse error: ${e}`);
@@ -60,10 +79,13 @@ export class Parser {
   private parseDocument(): Document {
     const directives: Record<string, string> = {};
     const tasks: Task[] = [];
+    const sections: Section[] = [];
+    const includes: Include[] = [];
     const comments: Comment[] = [];
     let view: ViewConfig | undefined;
     let agentContext: AgentContext | undefined;
     let handoff: HandoffInfo | undefined;
+    let currentSection: Section | null = null;
 
     // Skip leading newlines
     this.skipNewlines();
@@ -85,11 +107,36 @@ export class Parser {
       this.skipNewlines();
     }
 
-    // Parse tasks
+    // Parse tasks and sections
     while (!this.isAtEnd()) {
       this.skipNewlines();
 
       if (this.isAtEnd()) break;
+
+      // Check for section header
+      if (this.check(TokenType.SECTION)) {
+        const token = this.advance();
+        // Save current section if it has tasks
+        if (currentSection && currentSection.tasks.length > 0) {
+          sections.push(currentSection);
+        }
+        currentSection = {
+          title: token.value,
+          level: parseInt(token.raw ?? '2', 10),
+          tasks: [],
+        };
+        continue;
+      }
+
+      // Check for include
+      if (this.check(TokenType.INCLUDE)) {
+        const token = this.advance();
+        includes.push({
+          path: token.value,
+          line: token.line,
+        });
+        continue;
+      }
 
       // Check for view fence
       if (this.check(TokenType.VIEW_FENCE)) {
@@ -113,7 +160,11 @@ export class Parser {
       if (this.isStatusToken()) {
         const task = this.parseTask(0);
         if (task) {
-          tasks.push(task);
+          if (currentSection) {
+            currentSection.tasks.push(task);
+          } else {
+            tasks.push(task);
+          }
         }
         continue;
       }
@@ -138,12 +189,19 @@ export class Parser {
       }
     }
 
+    // Don't forget the last section
+    if (currentSection && currentSection.tasks.length > 0) {
+      sections.push(currentSection);
+    }
+
     const doc: Document = {
       version: directives['version'] ?? '1.1',
       directives,
       tasks,
     };
 
+    if (sections.length > 0) doc.sections = sections;
+    if (includes.length > 0) doc.includes = includes;
     if (view) doc.view = view;
     if (agentContext) doc.agentContext = agentContext;
     if (handoff) doc.handoff = handoff;
@@ -247,9 +305,26 @@ export class Parser {
 
   private parseTaskContent(task: Task): void {
     const descParts: string[] = [];
+    let lastTokenOrder = -1;
+    let lastTokenType = '';
 
     while (!this.isAtEnd() && !this.check(TokenType.NEWLINE) && !this.check(TokenType.EOF)) {
       const token = this.peek();
+
+      // Validate canonical order (only in strict mode)
+      if (this.strict) {
+        const currentOrder = TOKEN_ORDER[token.type];
+        if (currentOrder !== undefined && currentOrder < lastTokenOrder) {
+          this.addWarning(
+            `Token order: ${this.getTokenTypeName(token.type)} should appear before ${lastTokenType}`,
+            token
+          );
+        }
+        if (currentOrder !== undefined) {
+          lastTokenOrder = currentOrder;
+          lastTokenType = this.getTokenTypeName(token.type);
+        }
+      }
 
       switch (token.type) {
         case TokenType.PRIORITY:
@@ -515,6 +590,25 @@ export class Parser {
     const column = token?.column ?? this.peek().column;
     this.errors.push({ line, column, message });
   }
+
+  private addWarning(message: string, token?: Token): void {
+    const line = token?.line ?? this.peek().line;
+    const column = token?.column ?? this.peek().column;
+    this.warnings.push({ line, column, message });
+  }
+
+  private getTokenTypeName(type: TokenType): string {
+    switch (type) {
+      case TokenType.TEXT: return 'description';
+      case TokenType.PRIORITY: return 'priority';
+      case TokenType.ESTIMATE: return 'estimate';
+      case TokenType.ASSIGNEE: return 'assignee';
+      case TokenType.TAG: return 'tag';
+      case TokenType.DUE_DATE: return 'due date';
+      case TokenType.TASK_ID: return 'task ID';
+      default: return type;
+    }
+  }
 }
 
 /**
@@ -537,8 +631,14 @@ export function parse(input: string, options?: ParseOptions): ParseResult {
   const parser = new Parser(options);
   const result = parser.parse(tokens);
 
-  return {
+  const finalResult: ParseResult = {
     document: result.document,
     errors: [...parseErrors, ...result.errors],
   };
+
+  if (result.warnings && result.warnings.length > 0) {
+    finalResult.warnings = result.warnings;
+  }
+
+  return finalResult;
 }
