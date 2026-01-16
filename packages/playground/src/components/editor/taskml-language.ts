@@ -97,6 +97,8 @@ export const taskmlTokensProvider: languages.IMonarchLanguage = {
   },
 };
 
+import { registerTaskMLCompletions } from './taskml-completions';
+
 export function registerTaskMLLanguage(monaco: typeof import('monaco-editor')) {
   // Register language
   monaco.languages.register({ id: TASKML_LANGUAGE_ID });
@@ -106,4 +108,7 @@ export function registerTaskMLLanguage(monaco: typeof import('monaco-editor')) {
 
   // Set token provider
   monaco.languages.setMonarchTokensProvider(TASKML_LANGUAGE_ID, taskmlTokensProvider);
+
+  // Register completions and snippets
+  registerTaskMLCompletions(monaco);
 }

@@ -61,6 +61,7 @@ const SHORTCUT_GROUPS: ShortcutGroup[] = [
       { keys: ['Ctrl', '/'], description: 'Toggle comment' },
       { keys: ['Ctrl', 'F'], description: 'Find' },
       { keys: ['Ctrl', 'H'], description: 'Find and replace' },
+      { keys: ['Shift', 'Alt', 'F'], description: 'Format document' },
     ],
   },
 ];

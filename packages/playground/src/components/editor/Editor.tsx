@@ -9,7 +9,8 @@ import MonacoEditor, { type OnMount, type BeforeMount } from '@monaco-editor/rea
 import type { editor } from 'monaco-editor';
 import { registerTaskMLLanguage, TASKML_LANGUAGE_ID } from './taskml-language';
 import { registerTaskMLThemes } from './taskml-theme';
-import { useEditorStore, useSettingsStore, usePreviewStore } from '../../stores';
+import { useEditorStore, useSettingsStore, usePreviewStore, useUIStore } from '../../stores';
+import { formatTaskML } from '../../lib/format';
 
 export function Editor() {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
@@ -50,10 +51,49 @@ export function Editor() {
 
     // Add keyboard shortcuts
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
-      // Prevent default save, trigger share dialog
-      document.dispatchEvent(new CustomEvent('taskml:share'));
+      // Prevent default save, trigger save dialog
+      document.dispatchEvent(new CustomEvent('taskml:save'));
     });
-  }, [setCursor]);
+
+    // Format document: Shift+Alt+F (standard VS Code shortcut)
+    editor.addCommand(
+      monaco.KeyMod.Shift | monaco.KeyMod.Alt | monaco.KeyCode.KeyF,
+      () => {
+        const currentContent = editor.getValue();
+        const formatted = formatTaskML(currentContent);
+        if (formatted !== currentContent) {
+          // Preserve cursor position
+          const position = editor.getPosition();
+          editor.setValue(formatted);
+          if (position) {
+            editor.setPosition(position);
+          }
+          setContent(formatted);
+        }
+      }
+    );
+
+    // Add format command to context menu
+    editor.addAction({
+      id: 'taskml.formatDocument',
+      label: 'Format Document',
+      keybindings: [monaco.KeyMod.Shift | monaco.KeyMod.Alt | monaco.KeyCode.KeyF],
+      contextMenuGroupId: '1_modification',
+      contextMenuOrder: 1.5,
+      run: (ed) => {
+        const currentContent = ed.getValue();
+        const formatted = formatTaskML(currentContent);
+        if (formatted !== currentContent) {
+          const position = ed.getPosition();
+          ed.setValue(formatted);
+          if (position) {
+            ed.setPosition(position);
+          }
+          setContent(formatted);
+        }
+      },
+    });
+  }, [setCursor, setContent]);
 
   // Handle content change
   const handleChange = useCallback(
@@ -102,8 +142,17 @@ export function Editor() {
           },
           suggest: {
             showWords: false,
+            showSnippets: true,
+            snippetsPreventQuickSuggestions: false,
           },
-          quickSuggestions: false,
+          quickSuggestions: {
+            other: true,
+            comments: false,
+            strings: false,
+          },
+          suggestOnTriggerCharacters: true,
+          acceptSuggestionOnCommitCharacter: true,
+          snippetSuggestions: 'top',
           parameterHints: {
             enabled: false,
           },
