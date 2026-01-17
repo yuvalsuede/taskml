@@ -3,10 +3,9 @@
  */
 
 import { create } from 'zustand';
-import { render } from '../../../core/src';
+import { render } from 'taskml';
 import type { Document, ViewType, ThemeMode } from '../types';
 
-// Available view types (hardcoded to avoid import issues)
 const AVAILABLE_VIEWS: ViewType[] = ['list', 'kanban', 'tree', 'timeline', 'table', 'graph', 'summary'];
 
 interface PreviewState {

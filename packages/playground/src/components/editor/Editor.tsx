@@ -4,7 +4,7 @@
 
 'use client';
 
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import MonacoEditor, { type OnMount, type BeforeMount } from '@monaco-editor/react';
 import type { editor } from 'monaco-editor';
 import { registerTaskMLLanguage, TASKML_LANGUAGE_ID } from './taskml-language';
@@ -104,6 +104,23 @@ export function Editor() {
     },
     [setContent]
   );
+
+  // Handle go-to-line events from ErrorPanel
+  useEffect(() => {
+    const handleGoto = (e: CustomEvent<{ line: number; column: number }>) => {
+      if (editorRef.current) {
+        const { line, column } = e.detail;
+        editorRef.current.setPosition({ lineNumber: line, column });
+        editorRef.current.revealLineInCenter(line);
+        editorRef.current.focus();
+      }
+    };
+
+    document.addEventListener('taskml:goto', handleGoto as EventListener);
+    return () => {
+      document.removeEventListener('taskml:goto', handleGoto as EventListener);
+    };
+  }, []);
 
   return (
     <div className="h-full w-full">

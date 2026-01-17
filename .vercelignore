@@ -1,0 +1,25 @@
+# Build outputs
+.next/
+out/
+dist/
+
+# Cache
+.turbo/
+.cache/
+
+# Node modules (handled by Vercel)
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Coverage
+coverage/

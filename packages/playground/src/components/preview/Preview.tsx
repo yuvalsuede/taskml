@@ -6,6 +6,7 @@
 
 import { useRef, useState, useCallback, useEffect } from 'react';
 import { PreviewToolbar } from './PreviewToolbar';
+import { ZoomControls } from './ZoomControls';
 import { EmptyState } from './EmptyState';
 import { usePreviewStore, useEditorStore } from '../../stores';
 
@@ -83,16 +84,17 @@ export function Preview() {
   }, []);
 
   return (
-    <div className="h-full flex flex-col bg-white dark:bg-gray-800">
+    <div className="h-full flex flex-col bg-midnight">
       <PreviewToolbar previewRef={previewRef} />
 
       <div
         ref={containerRef}
-        className={`flex-1 ${isGraphView ? 'overflow-hidden' : 'overflow-auto'}`}
+        className={`relative flex-1 ${isGraphView ? 'overflow-hidden' : 'overflow-auto'}`}
         style={{
           cursor: isGraphView ? (isPanning ? 'grabbing' : 'grab') : 'default',
-          padding: isGraphView ? 0 : 16,
-          background: isGraphView ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%)' : undefined,
+          background: isGraphView
+            ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%)'
+            : 'var(--bg)',
         }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -102,7 +104,7 @@ export function Preview() {
       >
         {isRendering ? (
           <div className="h-full flex items-center justify-center">
-            <div className="animate-pulse text-gray-500 dark:text-gray-400">
+            <div className="animate-pulse text-gray-500">
               Rendering...
             </div>
           </div>
@@ -121,7 +123,7 @@ export function Preview() {
         ) : (
           <div
             ref={previewRef}
-            className={`preview-container ${isGraphView ? 'graph-preview' : ''}`}
+            className={`preview-container ${isGraphView ? 'graph-preview' : 'p-4'}`}
             style={isGraphView ? {
               transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoom})`,
               transformOrigin: '0 0',
@@ -132,6 +134,9 @@ export function Preview() {
             dangerouslySetInnerHTML={{ __html: renderedHTML }}
           />
         )}
+
+        {/* Floating zoom controls */}
+        {hasContent && !hasErrors && <ZoomControls />}
       </div>
     </div>
   );

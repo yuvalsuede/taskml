@@ -3,7 +3,7 @@
  */
 
 import { create } from 'zustand';
-import { parse } from '../../../core/src';
+import { parse } from 'taskml';
 import type { Document, ParseError } from '../types';
 
 interface EditorState {

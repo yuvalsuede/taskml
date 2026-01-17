@@ -107,16 +107,9 @@ export function validate(input: string): ParseResult['errors'] {
   return result.errors;
 }
 
-/**
- * Format a TaskML string with consistent styling.
- *
- * @param input - The TaskML string to format
- * @returns The formatted TaskML string
- */
-export function format(input: string): string {
-  // TODO: Implement formatter
-  return input.trim();
-}
+// Formatter
+export { format, needsFormatting } from './format';
+export type { FormatOptions } from './format';
 
 // Version info
 export const VERSION = '0.1.0';

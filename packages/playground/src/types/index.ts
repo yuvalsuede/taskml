@@ -2,7 +2,7 @@
  * Shared TypeScript types for the playground
  */
 
-import type { Document, ParseError, ViewType, Task } from '../../../core/src';
+import type { Document, ParseError, ViewType, Task } from 'taskml';
 
 export type { Document, ParseError, ViewType, Task };
 

@@ -1,5 +1,6 @@
 /**
  * AppShell - Main application container
+ * Modern Mermaid-inspired layout
  */
 
 'use client';
@@ -8,7 +9,7 @@ import { useEffect } from 'react';
 import { Header } from './Header';
 import { ResizablePanes } from './ResizablePanes';
 import { MobileNav } from './MobileNav';
-import { Editor } from '../editor/Editor';
+import { EditorPanel } from '../editor/EditorPanel';
 import { Preview } from '../preview/Preview';
 import { ErrorPanel } from '../panels/ErrorPanel';
 import { ShareDialog } from '../dialogs/ShareDialog';
@@ -40,7 +41,7 @@ export function AppShell() {
   }, [isMobile, setIsMobile]);
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+    <div className="h-screen flex flex-col bg-midnight">
       <Header />
 
       <main className="flex-1 overflow-hidden">
@@ -50,7 +51,7 @@ export function AppShell() {
             {activeMobileTab === 'editor' ? (
               <div className="h-full flex flex-col">
                 <div className="flex-1 overflow-hidden">
-                  <Editor />
+                  <EditorPanel />
                 </div>
                 {showErrorPanel && <ErrorPanel />}
               </div>
@@ -64,7 +65,7 @@ export function AppShell() {
             left={
               <div className="h-full flex flex-col">
                 <div className="flex-1 overflow-hidden">
-                  <Editor />
+                  <EditorPanel />
                 </div>
                 {showErrorPanel && <ErrorPanel />}
               </div>

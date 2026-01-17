@@ -3,7 +3,7 @@
  */
 
 import { toPng, toSvg } from 'html-to-image';
-import { toJSON, toYAML } from '../../../core/src';
+import { toJSON, toYAML } from 'taskml';
 import type { Document, ExportFormat } from '../types';
 
 interface ExportOptions {

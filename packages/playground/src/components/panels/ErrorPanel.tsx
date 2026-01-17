@@ -54,7 +54,12 @@ export function ErrorPanel() {
               key={i}
               className="w-full text-left py-1 px-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded flex items-start gap-2"
               onClick={() => {
-                // TODO: Jump to line in editor
+                // Jump to line in editor
+                document.dispatchEvent(
+                  new CustomEvent('taskml:goto', {
+                    detail: { line: error.line, column: error.column }
+                  })
+                );
               }}
             >
               <span className="text-gray-400 dark:text-gray-500 font-mono text-xs whitespace-nowrap">

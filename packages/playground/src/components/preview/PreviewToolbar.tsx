@@ -1,23 +1,32 @@
 /**
- * PreviewToolbar - View selector, zoom, and preview controls
+ * PreviewToolbar - Minimal icon-based view selector
  */
 
 'use client';
 
 import { RefObject } from 'react';
-import { ZoomIn, ZoomOut, RotateCcw, Maximize2 } from 'lucide-react';
-import { Button, Select, Tooltip } from '../ui';
+import {
+  List,
+  LayoutGrid,
+  GitBranch,
+  Calendar,
+  Table,
+  Network,
+  BarChart3,
+  ChevronDown,
+} from 'lucide-react';
+import { Button, Tooltip } from '../ui';
 import { usePreviewStore } from '../../stores';
 import type { ViewType } from '../../types';
 
-const VIEW_OPTIONS: { value: ViewType; label: string }[] = [
-  { value: 'list', label: 'List' },
-  { value: 'kanban', label: 'Kanban' },
-  { value: 'tree', label: 'Tree' },
-  { value: 'timeline', label: 'Timeline' },
-  { value: 'table', label: 'Table' },
-  { value: 'graph', label: 'Graph' },
-  { value: 'summary', label: 'Summary' },
+const VIEW_CONFIG: { value: ViewType; label: string; icon: typeof List }[] = [
+  { value: 'list', label: 'List', icon: List },
+  { value: 'kanban', label: 'Kanban', icon: LayoutGrid },
+  { value: 'tree', label: 'Tree', icon: GitBranch },
+  { value: 'timeline', label: 'Timeline', icon: Calendar },
+  { value: 'table', label: 'Table', icon: Table },
+  { value: 'graph', label: 'Graph', icon: Network },
+  { value: 'summary', label: 'Summary', icon: BarChart3 },
 ];
 
 interface PreviewToolbarProps {
@@ -27,48 +36,33 @@ interface PreviewToolbarProps {
 export function PreviewToolbar({ previewRef }: PreviewToolbarProps) {
   const viewType = usePreviewStore((s) => s.viewType);
   const setViewType = usePreviewStore((s) => s.setViewType);
-  const zoom = usePreviewStore((s) => s.zoom);
-  const zoomIn = usePreviewStore((s) => s.zoomIn);
-  const zoomOut = usePreviewStore((s) => s.zoomOut);
-  const resetZoom = usePreviewStore((s) => s.resetZoom);
 
-  const zoomPercent = Math.round(zoom * 100);
+  const currentView = VIEW_CONFIG.find((v) => v.value === viewType) || VIEW_CONFIG[0];
+  const CurrentIcon = currentView.icon;
 
   return (
-    <div className="h-12 flex items-center justify-between px-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-      {/* View selector */}
-      <div className="flex items-center gap-3">
-        <Select
-          label="View"
-          options={VIEW_OPTIONS}
-          value={viewType}
-          onChange={(e) => setViewType(e.target.value as ViewType)}
-        />
-      </div>
+    <div className="h-10 flex items-center justify-between px-3 border-b border-midnight-border bg-midnight-elevated">
+      {/* View label */}
+      <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+        Preview
+      </span>
 
-      {/* Zoom controls */}
-      <div className="flex items-center gap-1">
-        <Tooltip content="Zoom out" shortcut="Ctrl+-">
-          <Button variant="ghost" size="icon" onClick={zoomOut} disabled={zoom <= 0.5}>
-            <ZoomOut className="w-4 h-4" />
-          </Button>
-        </Tooltip>
-
-        <span className="w-12 text-center text-sm text-gray-600 dark:text-gray-400">
-          {zoomPercent}%
-        </span>
-
-        <Tooltip content="Zoom in" shortcut="Ctrl++">
-          <Button variant="ghost" size="icon" onClick={zoomIn} disabled={zoom >= 2}>
-            <ZoomIn className="w-4 h-4" />
-          </Button>
-        </Tooltip>
-
-        <Tooltip content="Reset zoom" shortcut="Ctrl+0">
-          <Button variant="ghost" size="icon" onClick={resetZoom}>
-            <RotateCcw className="w-4 h-4" />
-          </Button>
-        </Tooltip>
+      {/* View selector - icon buttons */}
+      <div className="flex items-center gap-0.5 bg-midnight-surface rounded-lg p-0.5">
+        {VIEW_CONFIG.map(({ value, label, icon: Icon }) => (
+          <Tooltip key={value} content={label}>
+            <button
+              onClick={() => setViewType(value)}
+              className={`p-1.5 rounded-md transition-all
+                ${viewType === value
+                  ? 'bg-signal text-white shadow-sm'
+                  : 'text-gray-500 hover:text-white hover:bg-midnight-elevated'
+                }`}
+            >
+              <Icon className="w-4 h-4" />
+            </button>
+          </Tooltip>
+        ))}
       </div>
     </div>
   );
