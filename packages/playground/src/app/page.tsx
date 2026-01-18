@@ -5,6 +5,7 @@ import {
   Features,
   SyntaxShowcase,
   ViewTypes,
+  Integrations,
   OpenSource,
   Footer,
 } from '../components/landing';
@@ -16,6 +17,7 @@ export default function LandingPage() {
       <Features />
       <SyntaxShowcase />
       <ViewTypes />
+      <Integrations />
       <OpenSource />
       <Footer />
     </main>
