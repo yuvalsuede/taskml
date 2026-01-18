@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     url: 'https://taskml.dev/playground',
     images: [
       {
-        url: '/images/views/kanban-full.png',
+        url: '/images/og-image.png',
         width: 1200,
         height: 630,
         alt: 'TaskML Playground',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   twitter: {
     title: 'TaskML Playground - Interactive Task Visualization',
     description: 'Write TaskML and see it render in real-time. 7 different views available.',
-    images: ['/images/views/kanban-full.png'],
+    images: ['/images/og-image.png'],
   },
   alternates: {
     canonical: 'https://taskml.dev/playground',

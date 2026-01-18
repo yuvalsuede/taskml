@@ -46,10 +46,10 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/images/views/kanban-full.png',
+        url: '/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'TaskML - Kanban View',
+        alt: 'TaskML - The task markup language',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     title: 'TaskML - The Markup Language for Tasks',
     description: 'Write tasks in simple syntax, render as kanban boards, timelines, tables, and more. Perfect for AI agents.',
     creator: '@paborito',
-    images: ['/images/views/kanban-full.png'],
+    images: ['/images/og-image.png'],
   },
   alternates: {
     canonical: 'https://taskml.dev',
