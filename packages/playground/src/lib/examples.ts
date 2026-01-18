@@ -14,42 +14,42 @@ export const CATEGORY_INFO: Record<
   'getting-started': {
     label: 'Getting Started',
     description: 'Learn TaskML basics',
-    icon: '📚',
+    icon: 'book',
     color: '#22C55E', // Green
     gradient: 'from-green-500 to-emerald-600',
   },
   'project-management': {
     label: 'Project Management',
     description: 'Sprints, roadmaps, and team planning',
-    icon: '📋',
+    icon: 'clipboard',
     color: '#F97316', // Orange (Signal)
     gradient: 'from-orange-500 to-amber-600',
   },
   'software-dev': {
     label: 'Software Development',
     description: 'Feature development and code reviews',
-    icon: '💻',
+    icon: 'code',
     color: '#3B82F6', // Blue
     gradient: 'from-blue-500 to-indigo-600',
   },
   'ai-agents': {
     label: 'AI Agents',
     description: 'Agentic workflows and handoffs',
-    icon: '🤖',
+    icon: 'cpu',
     color: '#A855F7', // Purple
     gradient: 'from-purple-500 to-violet-600',
   },
   'devops': {
     label: 'DevOps & Infrastructure',
     description: 'Deployments and CI/CD pipelines',
-    icon: '🚀',
+    icon: 'rocket',
     color: '#06B6D4', // Cyan
     gradient: 'from-cyan-500 to-teal-600',
   },
   'personal': {
     label: 'Personal',
     description: 'Daily planning and personal tasks',
-    icon: '✨',
+    icon: 'sparkles',
     color: '#EC4899', // Pink
     gradient: 'from-pink-500 to-rose-600',
   },

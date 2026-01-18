@@ -86,42 +86,42 @@ export const DARK_THEME_VARS: Record<string, string> = {
 };
 
 /**
- * Status configuration
+ * Status configuration - Modern minimal icons
  */
 export const STATUS_CONFIG: Record<TaskStatus, StatusConfig> = {
   pending: {
     label: 'Pending',
-    icon: '○',
+    icon: '',
     color: 'var(--taskml-status-pending)',
     bgColor: 'var(--taskml-status-pending-bg)',
   },
   in_progress: {
     label: 'In Progress',
-    icon: '◐',
+    icon: '',
     color: 'var(--taskml-status-progress)',
     bgColor: 'var(--taskml-status-progress-bg)',
   },
   completed: {
     label: 'Completed',
-    icon: '●',
+    icon: '',
     color: 'var(--taskml-status-completed)',
     bgColor: 'var(--taskml-status-completed-bg)',
   },
   blocked: {
     label: 'Blocked',
-    icon: '⊘',
+    icon: '',
     color: 'var(--taskml-status-blocked)',
     bgColor: 'var(--taskml-status-blocked-bg)',
   },
   cancelled: {
     label: 'Cancelled',
-    icon: '⊖',
+    icon: '',
     color: 'var(--taskml-status-cancelled)',
     bgColor: 'var(--taskml-status-cancelled-bg)',
   },
   review: {
     label: 'Review',
-    icon: '◎',
+    icon: '',
     color: 'var(--taskml-status-review)',
     bgColor: 'var(--taskml-status-review-bg)',
   },

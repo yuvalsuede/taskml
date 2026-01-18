@@ -6,7 +6,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Search, Star, LayoutGrid, X, ArrowRight } from 'lucide-react';
+import { Search, Star, LayoutGrid, X, ArrowRight, BookOpen, ClipboardList, Code, Cpu, Rocket, Sparkles, FileText } from 'lucide-react';
 import { DialogWrapper } from './DialogWrapper';
 import { useEditorStore, useUIStore, usePreviewStore } from '../../stores';
 import {
@@ -26,6 +26,25 @@ const VIEW_LABELS: Record<ViewType, string> = {
   graph: 'Graph',
   summary: 'Summary',
 };
+
+// Map icon names to Lucide components
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  book: BookOpen,
+  clipboard: ClipboardList,
+  code: Code,
+  cpu: Cpu,
+  rocket: Rocket,
+  sparkles: Sparkles,
+};
+
+function CategoryIcon({ name, className, color }: { name: string; className?: string; color?: string }) {
+  const Icon = ICON_MAP[name] || FileText;
+  return (
+    <span style={color ? { color } : undefined}>
+      <Icon className={className} />
+    </span>
+  );
+}
 
 // Colorful gradients for featured cards
 const FEATURED_GRADIENTS = [
@@ -65,7 +84,7 @@ function TemplateCard({ example, onSelect, featured, index = 0 }: TemplateCardPr
         <div className="relative p-5">
           {/* Category icon */}
           <div className="w-12 h-12 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center mb-4">
-            <span className="text-2xl">{categoryInfo?.icon || '📄'}</span>
+            <CategoryIcon name={categoryInfo?.icon || 'clipboard'} className="w-6 h-6 text-white" />
           </div>
 
           {/* Title & description */}
@@ -106,7 +125,7 @@ function TemplateCard({ example, onSelect, featured, index = 0 }: TemplateCardPr
         className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ml-2"
         style={{ backgroundColor: `${categoryInfo?.color}20` }}
       >
-        <span className="text-xl">{categoryInfo?.icon || '📄'}</span>
+        <CategoryIcon name={categoryInfo?.icon || 'clipboard'} className="w-5 h-5" color={categoryInfo?.color} />
       </div>
 
       {/* Content */}
@@ -154,7 +173,7 @@ function CategoryPill({
           : undefined
       }
     >
-      <span>{info.icon}</span>
+      <CategoryIcon name={info.icon} className="w-4 h-4" />
       <span className="font-medium">{info.label}</span>
       <span className={`text-xs ${selected ? 'text-white/70' : 'text-gray-500'}`}>
         {count}

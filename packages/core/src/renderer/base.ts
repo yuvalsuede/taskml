@@ -36,12 +36,16 @@ export function getBaseStyles(ctx: RenderContext): string {
 
 .${cls('status-icon')} {
   flex-shrink: 0;
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1rem;
+  height: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.875rem;
+}
+
+.${cls('status-icon')} svg {
+  width: 100%;
+  height: 100%;
 }
 
 .${cls('task-content')} {
@@ -65,15 +69,27 @@ export function getBaseStyles(ctx: RenderContext): string {
 .${cls('badge')} {
   display: inline-flex;
   align-items: center;
-  padding: 0.125rem 0.5rem;
-  border-radius: var(--taskml-radius-sm);
-  font-size: 0.75rem;
-  font-weight: 500;
+  gap: 0.25rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
 }
 
 .${cls('priority')} {
   color: var(--color);
-  background: var(--bg);
+  background: transparent;
+  padding: 0;
+}
+
+.${cls('priority')}::before {
+  content: '';
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  background: var(--color);
 }
 
 .${cls('tag')} {
@@ -150,6 +166,18 @@ export function getBaseStyles(ctx: RenderContext): string {
 }
 
 /**
+ * SVG icons for status - clean, minimal design
+ */
+const STATUS_ICONS: Record<string, string> = {
+  pending: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/></svg>`,
+  in_progress: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  completed: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" fill="currentColor"/><path d="M5.5 8l2 2 3.5-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  blocked: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  cancelled: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M6 6l4 4M10 6l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  review: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="2" fill="currentColor"/></svg>`,
+};
+
+/**
  * Render status icon
  */
 export function renderStatusIcon(ctx: RenderContext, status: string): string {
@@ -157,7 +185,8 @@ export function renderStatusIcon(ctx: RenderContext, status: string): string {
   const config = STATUS_CONFIG[status as keyof typeof STATUS_CONFIG];
   if (!config) return '';
 
-  return `<span class="${cls('status-icon')}" style="color: ${config.color}" title="${config.label}">${config.icon}</span>`;
+  const icon = STATUS_ICONS[status] || STATUS_ICONS.pending;
+  return `<span class="${cls('status-icon')}" style="color: ${config.color}" title="${config.label}">${icon}</span>`;
 }
 
 /**

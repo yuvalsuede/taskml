@@ -142,7 +142,10 @@ export function Header() {
       <div className="flex items-center gap-3">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2 group">
-          <span className="text-xl">📋</span>
+          <svg className="w-5 h-5 text-signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 11l3 3L22 4" />
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
+          </svg>
           <span className="text-lg font-semibold text-white tracking-tight">taskml</span>
           <span className="hidden sm:inline text-[10px] font-bold px-1.5 py-0.5 bg-signal/20 text-signal rounded uppercase tracking-wider">
             Playground
