@@ -9,7 +9,7 @@ export function OpenSource() {
     <section className="py-32 bg-black">
       <div className="max-w-4xl mx-auto px-6 text-center">
         {/* Icon */}
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-midnight-surface border border-midnight-border mb-8">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 mb-8">
           <Heart className="w-8 h-8 text-signal" />
         </div>
 
@@ -28,8 +28,8 @@ export function OpenSource() {
             href="https://github.com/anthropics/taskml"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 px-6 py-4 rounded-xl bg-midnight-surface border border-midnight-border
-              hover:border-midnight-border-active transition-colors"
+            className="flex items-center gap-3 px-6 py-4 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10
+              hover:border-white/20 hover:bg-white/[0.07] transition-all"
           >
             <Github className="w-6 h-6 text-white" />
             <div className="text-left">
@@ -42,8 +42,8 @@ export function OpenSource() {
             href="https://github.com/anthropics/taskml/stargazers"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 px-6 py-4 rounded-xl bg-midnight-surface border border-midnight-border
-              hover:border-midnight-border-active transition-colors"
+            className="flex items-center gap-3 px-6 py-4 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10
+              hover:border-white/20 hover:bg-white/[0.07] transition-all"
           >
             <Star className="w-6 h-6 text-yellow-400" />
             <div className="text-left">
@@ -56,8 +56,8 @@ export function OpenSource() {
             href="https://github.com/anthropics/taskml/fork"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 px-6 py-4 rounded-xl bg-midnight-surface border border-midnight-border
-              hover:border-midnight-border-active transition-colors"
+            className="flex items-center gap-3 px-6 py-4 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10
+              hover:border-white/20 hover:bg-white/[0.07] transition-all"
           >
             <GitFork className="w-6 h-6 text-blue-400" />
             <div className="text-left">
@@ -68,7 +68,7 @@ export function OpenSource() {
         </div>
 
         {/* License badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-midnight-surface border border-midnight-border text-sm text-gray-400">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur border border-white/10 text-sm text-gray-400">
           <span className="w-2 h-2 rounded-full bg-green-400"></span>
           MIT License
         </div>

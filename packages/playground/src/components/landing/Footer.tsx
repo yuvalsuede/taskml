@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer className="py-20 bg-midnight-elevated border-t border-midnight-border">
+    <footer className="py-20 bg-black border-t border-white/10">
       <div className="max-w-6xl mx-auto px-6">
         {/* Final CTA */}
         <div className="text-center mb-16">
@@ -20,8 +20,8 @@ export function Footer() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/playground"
-              className="group flex items-center gap-2 px-8 py-4 bg-signal text-white font-semibold rounded-lg
-                hover:bg-signal-hover transition-colors shadow-lg shadow-signal/20"
+              className="group flex items-center gap-2 px-8 py-4 bg-white text-black font-semibold rounded-lg
+                hover:bg-gray-100 transition-colors"
             >
               Open Playground
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -30,8 +30,8 @@ export function Footer() {
               href="https://www.npmjs.com/package/taskml"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-8 py-4 bg-midnight-surface text-white font-semibold rounded-lg
-                border border-midnight-border hover:border-midnight-border-active transition-colors"
+              className="flex items-center gap-2 px-8 py-4 bg-white/5 backdrop-blur-xl text-white font-semibold rounded-lg
+                border border-white/10 hover:border-white/20 hover:bg-white/[0.07] transition-all"
             >
               <code className="text-signal">npm i taskml</code>
             </a>
@@ -39,7 +39,7 @@ export function Footer() {
         </div>
 
         {/* Footer links */}
-        <div className="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-midnight-border">
+        <div className="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-white/10">
           {/* Logo */}
           <div className="flex items-center gap-2 mb-4 sm:mb-0">
             <svg className="w-5 h-5 text-signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -30,15 +30,15 @@ const FEATURES = [
 
 export function Features() {
   return (
-    <section className="py-32 bg-midnight-elevated">
+    <section className="py-32 bg-black">
       <div className="max-w-6xl mx-auto px-6">
         {/* Section header */}
         <div className="text-center mb-20">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Why TaskML?
+            Do you know what your AI is doing?
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            A markup language designed for the way we actually work with tasks.
+            TaskML gives you visibility into AI agent workflows with human-readable task tracking.
           </p>
         </div>
 
@@ -47,14 +47,14 @@ export function Features() {
           {FEATURES.map((feature) => (
             <div
               key={feature.title}
-              className="group relative p-8 rounded-2xl bg-midnight-surface border border-midnight-border
-                hover:border-midnight-border-active transition-all duration-300"
+              className="group relative p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10
+                hover:border-white/20 hover:bg-white/[0.07] transition-all duration-300"
             >
               {/* Icon */}
               <div
                 className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.color} p-0.5 mb-6`}
               >
-                <div className="w-full h-full rounded-[10px] bg-midnight-surface flex items-center justify-center">
+                <div className="w-full h-full rounded-[10px] bg-black/50 backdrop-blur flex items-center justify-center">
                   <feature.icon className="w-6 h-6 text-white" />
                 </div>
               </div>

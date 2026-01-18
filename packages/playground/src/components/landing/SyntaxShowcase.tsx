@@ -80,7 +80,7 @@ export function SyntaxShowcase() {
           {SYNTAX_HIGHLIGHTS.map((item) => (
             <div
               key={item.pattern}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-midnight-surface border border-midnight-border"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 backdrop-blur border border-white/10"
             >
               <code className={`font-mono text-sm ${item.color}`}>
                 {item.pattern}
@@ -93,13 +93,13 @@ export function SyntaxShowcase() {
         {/* Code + Preview */}
         <div className="grid lg:grid-cols-2 gap-6">
           {/* Code editor */}
-          <div className="relative rounded-xl bg-midnight-elevated border border-midnight-border overflow-hidden">
+          <div className="relative rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 overflow-hidden">
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-midnight-border bg-midnight-surface">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/5">
               <span className="text-sm text-gray-400 font-mono">tasks.taskml</span>
               <button
                 onClick={copyCode}
-                className="flex items-center gap-1.5 px-2 py-1 rounded text-xs text-gray-400 hover:text-white hover:bg-midnight-elevated transition-colors"
+                className="flex items-center gap-1.5 px-2 py-1 rounded text-xs text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
               >
                 {copied ? (
                   <>
@@ -122,9 +122,9 @@ export function SyntaxShowcase() {
           </div>
 
           {/* Live preview */}
-          <div className="relative rounded-xl bg-midnight-elevated border border-midnight-border overflow-hidden">
+          <div className="relative rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 overflow-hidden">
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-midnight-border bg-midnight-surface">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/5">
               <span className="text-sm text-gray-400">Live Preview</span>
               <span className="text-xs text-green-400 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400"></span>
