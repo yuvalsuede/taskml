@@ -1,0 +1,10 @@
+# robots.txt for taskml.dev
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://taskml.dev/sitemap.xml
+
+# LLMs.txt for AI agents
+# See: https://taskml.dev/llms.txt

@@ -1,0 +1,154 @@
+# TaskML
+
+> The markup language for AI agent task output
+
+## What is TaskML?
+
+TaskML is a lightweight, human-readable markup language designed for task management. It allows AI agents and humans to write tasks in a simple format that can be parsed and rendered into multiple visualization types.
+
+## Quick Start
+
+Install via npm:
+```bash
+npm install taskml
+```
+
+Basic usage:
+```typescript
+import { parse, render } from 'taskml';
+
+const doc = parse(`
+  @project My Project
+  [ ] First task #p0 @alice
+  [x] Completed task
+  [~] In progress ~2h
+`);
+
+const html = render(doc, { view: 'kanban' });
+```
+
+## Syntax Reference
+
+### Context Blocks
+- `@project Project Name` - Define a project
+- `@sprint Sprint Name` - Define a sprint/milestone
+
+### Task Status
+- `[ ]` - Pending/Todo
+- `[x]` - Completed/Done
+- `[~]` - In Progress
+- `[!]` - Blocked
+
+### Task Metadata (inline)
+- `#p0` to `#p3` - Priority (p0=critical, p1=high, p2=medium, p3=low)
+- `@username` - Assignee
+- `~4h` or `~2d` - Time estimate (hours/days)
+- `!2024-02-15` - Due date (YYYY-MM-DD format)
+
+### Hierarchy
+Indentation (2 spaces or 1 tab) creates subtasks:
+```
+[ ] Parent task
+  [ ] Child task
+    [ ] Grandchild task
+```
+
+### Comments
+```
+// This is a comment
+```
+
+## Complete Example
+
+```taskml
+@project Website Redesign
+@sprint Week 1
+
+// Design phase
+[ ] Design homepage #p0 @alice
+  [x] Create wireframes
+  [~] Build prototype ~2h
+  [ ] Get stakeholder approval
+
+// Development phase
+[~] Implement core features #p1 @bob ~8h
+  [ ] User authentication
+  [~] Data persistence
+  [ ] API endpoints
+
+[ ] Write documentation #p2 ~4h
+[ ] Deploy to production #p1 !2024-02-01
+```
+
+## Supported Views
+
+TaskML documents can be rendered in 7 different views:
+
+1. **list** - Nested task list with status indicators
+2. **kanban** - Columns by status (Pending, In Progress, Completed)
+3. **timeline** - Gantt-chart style with durations and due dates
+4. **table** - Spreadsheet format with sortable columns
+5. **tree** - Hierarchical collapsible tree view
+6. **graph** - Visual node graph for dependencies
+7. **summary** - Dashboard with statistics and charts
+
+## API Reference
+
+### parse(input: string): TaskDocument
+Parses a TaskML string into a structured document object.
+
+### render(doc: TaskDocument, options?: RenderOptions): string
+Renders a TaskDocument to HTML string.
+
+RenderOptions:
+- `view`: 'list' | 'kanban' | 'timeline' | 'table' | 'tree' | 'graph' | 'summary'
+- `theme`: 'light' | 'dark'
+
+### toJSON(doc: TaskDocument): object
+Converts a TaskDocument to JSON interchange format.
+
+### toYAML(doc: TaskDocument): string
+Converts a TaskDocument to YAML interchange format.
+
+### fromJSON(json: object): TaskDocument
+Creates a TaskDocument from JSON.
+
+### fromYAML(yaml: string): TaskDocument
+Creates a TaskDocument from YAML.
+
+## AI Integration
+
+To use TaskML with AI assistants, add this to your system prompt:
+
+```
+When tracking tasks, projects, or to-dos, use TaskML format:
+
+@project Project Name
+@sprint Sprint Name (optional)
+
+Task syntax:
+[ ] Pending task
+[x] Completed task
+[~] In progress task
+[!] Blocked task
+
+Metadata (add inline after task text):
+- #p0 to #p3 for priority (p0=critical)
+- @name for assignee
+- ~Xh or ~Xd for time estimates
+- !YYYY-MM-DD for due dates
+
+Use indentation for subtasks.
+```
+
+## Links
+
+- Website: https://taskml.dev
+- Playground: https://taskml.dev/playground
+- GitHub: https://github.com/yuvalsuede/taskml
+- npm: https://npmjs.com/package/taskml
+- Documentation: https://github.com/yuvalsuede/taskml#readme
+
+## License
+
+MIT License - Copyright (c) 2025 Yuval Suede
