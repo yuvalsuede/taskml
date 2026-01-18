@@ -1,3 +1,5 @@
+<div align="center">
+
 # TaskML
 
 [![npm version](https://img.shields.io/npm/v/taskml.svg?style=flat-square&color=f97316)](https://www.npmjs.com/package/taskml)
@@ -10,6 +12,10 @@
 > Write tasks in plain text. Render them as beautiful visualizations.
 
 [Website](https://taskml.dev) · [Playground](https://taskml.dev/playground) · [API Docs](./packages/core/README.md)
+
+![TaskML Playground](./packages/playground/public/images/views/list-full.png)
+
+</div>
 
 ---
 
@@ -91,14 +97,37 @@ const html = render(document, { view: 'list' });
 
 ## View Types
 
-| View | Description |
-|------|-------------|
-| **List** | Hierarchical task list with nested subtasks |
-| **Kanban** | Columns grouped by status |
-| **Timeline** | Gantt-style chart based on estimates |
-| **Table** | Spreadsheet view with sortable columns |
-| **Tree** | Collapsible tree structure |
-| **Graph** | Network diagram of dependencies |
+TaskML renders your tasks in multiple beautiful views:
+
+### List View
+Hierarchical task list with nested subtasks, priorities, and assignees.
+
+![List View](./packages/playground/public/images/views/list-full.png)
+
+### Kanban View
+Columns grouped by status - Pending, In Progress, Completed.
+
+![Kanban View](./packages/playground/public/images/views/kanban-full.png)
+
+### Timeline View
+Gantt-style chart based on time estimates and due dates.
+
+![Timeline View](./packages/playground/public/images/views/timeline-full.png)
+
+### Table View
+Spreadsheet view with sortable columns for status, priority, assignee, and more.
+
+![Table View](./packages/playground/public/images/views/table-full.png)
+
+### Tree View
+Collapsible tree structure showing task hierarchy.
+
+![Tree View](./packages/playground/public/images/views/tree-full.png)
+
+### Graph View
+Network diagram showing task relationships and dependencies.
+
+![Graph View](./packages/playground/public/images/views/graph-full.png)
 
 ---
 
