@@ -3,20 +3,23 @@ import './globals.css';
 import { ToastProvider } from '../components/ui';
 
 export const metadata: Metadata = {
-  title: 'TaskML Playground',
-  description: 'Interactive playground for TaskML - AI agent task visualization and management',
-  keywords: ['TaskML', 'task management', 'visualization', 'AI agents', 'playground'],
+  title: {
+    default: 'TaskML - The Markup Language for Tasks',
+    template: '%s | TaskML',
+  },
+  description: 'Simple syntax. Multiple views. Perfect for AI agents and humans alike. Turn plain text into beautiful task visualizations.',
+  keywords: ['TaskML', 'task management', 'visualization', 'AI agents', 'markup language', 'kanban', 'todo'],
   authors: [{ name: 'TaskML' }],
   openGraph: {
-    title: 'TaskML Playground',
-    description: 'Interactive playground for TaskML - AI agent task visualization',
+    title: 'TaskML - The Markup Language for Tasks',
+    description: 'Simple syntax. Multiple views. Perfect for AI agents and humans alike.',
     type: 'website',
     siteName: 'TaskML',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'TaskML Playground',
-    description: 'Interactive playground for TaskML - AI agent task visualization',
+    title: 'TaskML - The Markup Language for Tasks',
+    description: 'Simple syntax. Multiple views. Perfect for AI agents and humans alike.',
   },
 };
 
