@@ -121,10 +121,10 @@ export function Hero() {
               <Link href="/playground" className="text-sm text-gray-400 hover:text-white transition-colors">
                 Playground
               </Link>
-              <a href="https://github.com/anthropics/taskml" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-400 hover:text-white transition-colors">
+              <a href="https://github.com/yuvalsuede/taskml" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-400 hover:text-white transition-colors">
                 Docs
               </a>
-              <a href="https://github.com/anthropics/taskml" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1.5">
+              <a href="https://github.com/yuvalsuede/taskml" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1.5">
                 <Github className="w-4 h-4" />
                 GitHub
               </a>
@@ -267,7 +267,7 @@ export function Hero() {
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <a
-              href="https://github.com/anthropics/taskml"
+              href="https://github.com/yuvalsuede/taskml"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-6 py-3 bg-midnight-surface text-white font-semibold rounded-lg

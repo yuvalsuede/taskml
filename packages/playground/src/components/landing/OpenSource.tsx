@@ -25,7 +25,7 @@ export function OpenSource() {
         {/* GitHub stats */}
         <div className="flex flex-wrap justify-center gap-6 mb-12">
           <a
-            href="https://github.com/anthropics/taskml"
+            href="https://github.com/yuvalsuede/taskml"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 px-6 py-4 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10
@@ -34,12 +34,12 @@ export function OpenSource() {
             <Github className="w-6 h-6 text-white" />
             <div className="text-left">
               <div className="text-sm text-gray-400">Repository</div>
-              <div className="text-white font-semibold">anthropics/taskml</div>
+              <div className="text-white font-semibold">yuvalsuede/taskml</div>
             </div>
           </a>
 
           <a
-            href="https://github.com/anthropics/taskml/stargazers"
+            href="https://github.com/yuvalsuede/taskml/stargazers"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 px-6 py-4 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10
@@ -53,7 +53,7 @@ export function OpenSource() {
           </a>
 
           <a
-            href="https://github.com/anthropics/taskml/fork"
+            href="https://github.com/yuvalsuede/taskml/fork"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 px-6 py-4 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10

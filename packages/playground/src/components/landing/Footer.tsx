@@ -55,7 +55,7 @@ export function Footer() {
               Playground
             </Link>
             <a
-              href="https://github.com/anthropics/taskml"
+              href="https://github.com/yuvalsuede/taskml"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition-colors flex items-center gap-1"

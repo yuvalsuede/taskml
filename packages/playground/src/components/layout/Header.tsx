@@ -257,7 +257,7 @@ export function Header() {
           {/* GitHub link */}
           <Tooltip content="View on GitHub">
             <a
-              href="https://github.com/anthropics/taskml"
+              href="https://github.com/yuvalsuede/taskml"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 text-gray-400 hover:text-white transition-colors"
