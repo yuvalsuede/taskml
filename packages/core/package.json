@@ -41,6 +41,13 @@
     "url": "https://github.com/yuvalsuede/taskml.git",
     "directory": "packages/core"
   },
+  "homepage": "https://taskml.dev",
+  "bugs": {
+    "url": "https://github.com/yuvalsuede/taskml/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "tsup": "^8.0.0",
     "typescript": "^5.3.0"
